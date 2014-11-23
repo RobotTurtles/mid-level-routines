@@ -21,48 +21,48 @@ class Movement:
 	
 	def turnDegrees(self, distance):
 		"""Turn Robot left/right by distance in degrees"""
-		targetSecs = abs(distance * __degreesToSecs)
+		targetSecs = abs(distance * self.__degreesToSecs)
 		currentSecs = 0
 		
 		if(distance < 0):
-			leftDir = __leftFwdDir * -1
-			rightDir = __rightFwdDir
+			leftDir = self.__leftFwdDir * -1
+			rightDir = self.__rightFwdDir
 		else:
-			leftDir = __leftFwdDir
-			rightDir = __rightFwdDir * -1
+			leftDir = self.__leftFwdDir
+			rightDir = self.__rightFwdDir * -1
 		
 		while(currentSecs < targetSecs):
 			time.sleep(1)
 			currentSecs += 1
 			
-			writeToMotor(__leftServo, leftDir, __defaultSpeed)
-			writeToMotor(__rightServo, rightDir, __defaultSpeed)
+			self.writeToMotor(self.__leftServo, leftDir, self.__defaultSpeed)
+			self.writeToMotor(self.__rightServo, rightDir, self.__defaultSpeed)
 			
-		writeToMotor(__leftServo, __leftFwdDir, 0)
-		writeToMotor(__rightServo, __rightFwdDir, 0)
+		self.writeToMotor(self.__leftServo, self.__leftFwdDir, 0)
+		self.writeToMotor(self.__rightServo, self.__rightFwdDir, 0)
 		return True
 		
 	def moveCM(self, distance):
 		"""Move Robot forward/backward by distance in cms"""
-		targetSecs = abs(distance * __cmsToSecs)
+		targetSecs = abs(distance * self.__cmsToSecs)
 		currentSecs = 0
 		
 		if(distance < 0):
-			leftDir = __leftFwdDir * -1
-			rightDir = __rightFwdDir -1
+			leftDir = self.__leftFwdDir * -1
+			rightDir = self.__rightFwdDir -1
 		else:
-			leftDir = __leftFwdDir
-			rightDir = __rightFwdDir
+			leftDir = self.__leftFwdDir
+			rightDir = self.__rightFwdDir
 		
 		while(currentSecs < targetSecs):
 			time.sleep(1)
 			currentSecs += 1
 			
-			writeToMotor(__leftServo, leftDir, __defaultSpeed)
-			writeToMotor(__rightServo, rightDir, __defaultSpeed)
+			self.writeToMotor(self.__leftServo, leftDir, self.__defaultSpeed)
+			self.writeToMotor(self.__rightServo, rightDir, self.__defaultSpeed)
 			
-		writeToMotor(__leftServo, __leftFwdDir, 0)
-		writeToMotor(__rightServo, __rightFwdDir, 0)
+		self.writeToMotor(self.__leftServo, self.__leftFwdDir, 0)
+		self.writeToMotor(self.__rightServo, self.__rightFwdDir, 0)
 		return True
 	
 	def writeToMotor(self, motor, direction, speed):
