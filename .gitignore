@@ -2,6 +2,8 @@
 __pycache__/
 *.py[cod]
 
+testResults.txt
+
 # C extensions
 *.so
 

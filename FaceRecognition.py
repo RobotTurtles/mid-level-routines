@@ -1,6 +1,8 @@
 #
 # Class for Facial Recognition
 #
+import cv2
+
 class FaceRecognition:
 	
 	def __init__(self):
