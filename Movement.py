@@ -68,7 +68,7 @@ class Movement:
 	def writeToMotor(self, motor, direction, speed):
 		""" Write to Motor a speed, +/- 0-100%"""
 		pwmValue = 50 + round(direction*speed/2)
-		stringToWrite = str(motor) + '=' + str(pwmValue) + '%'
+		stringToWrite = str(motor) + '=' + str(pwmValue) + '%\n'
 		self.__MotorController.write(stringToWrite)
 		self.__MotorController.flush()
 		return True

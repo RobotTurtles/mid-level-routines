@@ -10,7 +10,7 @@ class TestSequenceFunctions(unittest.TestCase):
 
 	def test_moveCM_0(self):
 		#Arrange
-		expected = '0=50.0%1=50.0%'
+		expected = ['0=50.0%\n','1=50.0%\n']
 		
 		#Act
 		self.m.moveCM(0)
@@ -21,7 +21,7 @@ class TestSequenceFunctions(unittest.TestCase):
 		
 	def test_turnDegrees_0(self):
 		#Arrange
-		expected = '0=50.0%1=50.0%'
+		expected = ['0=50.0%\n','1=50.0%\n']
 		
 		#Act
 		self.m.turnDegrees(0)
@@ -35,7 +35,7 @@ class TestSequenceFunctions(unittest.TestCase):
 		
 		# Act
 		self.m.writeToMotor(0,1,0)
-		expected = '0=50.0%'
+		expected = ['0=50.0%\n']
 		actual = self.readResult()
 		
 		# Assert
@@ -43,7 +43,7 @@ class TestSequenceFunctions(unittest.TestCase):
 		
 	def test_writeToMotor_stop_2nd(self):
 		# Arrange
-		expected = '1=50.0%'
+		expected = ['1=50.0%\n']
 		
 		# Act
 		self.m.writeToMotor(1,1,0)
@@ -57,7 +57,7 @@ class TestSequenceFunctions(unittest.TestCase):
 		
 		# Act
 		self.m.writeToMotor(0,1,100)
-		expected = '0=100.0%'
+		expected = ['0=100.0%\n']
 		actual = self.readResult()
 		
 		# Assert
@@ -68,7 +68,7 @@ class TestSequenceFunctions(unittest.TestCase):
 		
 		# Act
 		self.m.writeToMotor(0,1,-100)
-		expected = '0=0.0%'
+		expected = ['0=0.0%\n']
 		actual = self.readResult()
 		
 		# Assert
@@ -77,7 +77,7 @@ class TestSequenceFunctions(unittest.TestCase):
 		
 	def readResult(self):
 		with open(self.__targetFile, 'r') as f:
-			lines = f.readline()
+			lines = f.readlines()
 		
 		return lines
 		
