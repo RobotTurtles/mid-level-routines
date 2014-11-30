@@ -1,20 +1,46 @@
 # Simple Robot Program
 
-import curses
 from Movement import Movement
 
-win = curses.initscr()
-win.nodelay(1)
-curses.noecho()
+def _find_getch():
+    try:
+        import termios
+    except ImportError:
+        # Non-POSIX. Return msvcrt's (Windows') getch.
+        import msvcrt
+        return msvcrt.getch
 
-m = Movement()
+    # POSIX system. Create and return a getch that manipulates the tty.
+    import sys, tty
+    def _getch():
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        try:
+            tty.setraw(fd)
+            ch = sys.stdin.read(1)
+        finally:
+            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+        return ch
+
+    return _getch
+
+def _find_movement():
+	try:
+		import termios
+		return Movement()
+	except ImportError:
+		return Movement('temptFile.txt')
+
+getch = _find_getch()
+
+m = _find_movement();
+
 distanceCM = 2
 distanceDegrees = 2
 
 while True:
-	c = win.getch()
-	key = ord(c)
-	
+	key = ord(getch())
+
 	if key == 27: #ESC
 		break
 	elif key == 224: #Special keys (arrows, f keys, ins, del, etc.)
@@ -34,3 +60,4 @@ while True:
 			m.turnDegrees(-distanceDegrees)
 		else:
 			print(key)
+				
