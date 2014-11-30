@@ -3,7 +3,7 @@
 from msvcrt import getch
 from Movement import Movement
 
-m = Movement('testResults.txt')
+m = Movement()
 distanceCM = 2
 distanceDegrees = 2
 
