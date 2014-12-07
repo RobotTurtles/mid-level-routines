@@ -21,8 +21,8 @@ class FaceRecognition:
 				cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
 				self.Cface = [(w/2+x),(h/2+y)]
 			
-			if(x != 0 && y != 0)
-				cv2.imwrite(filename, img)
+				if(x != 0 and y != 0):
+					cv2.imwrite(filename, img)
 			
 			print str(self.Cface[0]) + "," + str(self.Cface[1])
 			return self.Cface

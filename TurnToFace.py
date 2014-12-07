@@ -12,10 +12,10 @@ m = Movement()
 f = FaceRecognition()
 threshold = 10
 
-while(true):
+while(True):
 	faceLocation = f.FindFace()
 	
-	if(faceLocation[0] != 0 && faceLocation[1] != 0):
+	if(faceLocation[0] != 0 and faceLocation[1] != 0):
 		delta = 240 - faceLocation[0]
 		
 		if(abs(delta) > threshold):
