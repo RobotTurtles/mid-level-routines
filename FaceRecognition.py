@@ -12,7 +12,7 @@ class FaceRecognition:
 		
 		self.Cface = [0,0]
 		
-	def FindFace(self, filename='default.jpg'):
+	def FindFace(self, filename='lastFaceFound.jpg'):
 			ret, img = self.webcam.read()
 			gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 	
@@ -20,8 +20,9 @@ class FaceRecognition:
 			for (x,y,w,h) in faces:
 				cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
 				self.Cface = [(w/2+x),(h/2+y)]
-    
-			cv2.imwrite(filename, img)
+			
+			if(x != 0 && y != 0)
+				cv2.imwrite(filename, img)
 			
 			print str(self.Cface[0]) + "," + str(self.Cface[1])
 			return self.Cface

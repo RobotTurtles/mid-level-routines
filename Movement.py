@@ -16,13 +16,13 @@ class Movement:
 		
 		self.__defaultSpeed = 80
 	
-		self.__degreesToSecs = 1
-		self.__cmsToSecs = 1
+		self.__degreesToSecs = 250
+		self.__cmsToSecs = 250
 	
 	def turnDegrees(self, distance):
 		"""Turn Robot left/right by distance in degrees"""
-		targetSecs = abs(distance * self.__degreesToSecs)
-		currentSecs = 0
+		targetMilliSecs = abs(distance * self.__degreesToSecs)
+		currentMilliSecs = 0
 		
 		if(distance < 0):
 			leftDir = self.__leftFwdDir * -1
@@ -31,9 +31,9 @@ class Movement:
 			leftDir = self.__leftFwdDir
 			rightDir = self.__rightFwdDir * -1
 		
-		while(currentSecs < targetSecs):
-			time.sleep(1)
-			currentSecs += 1
+		while(currentMilliSecs < targetMilliSecs):
+			time.sleep(0.001)
+			currentMilliSecs += 1
 			
 			self.writeToMotor(self.__leftServo, leftDir, self.__defaultSpeed)
 			self.writeToMotor(self.__rightServo, rightDir, self.__defaultSpeed)
@@ -44,8 +44,8 @@ class Movement:
 		
 	def moveCM(self, distance):
 		"""Move Robot forward/backward by distance in cms"""
-		targetSecs = abs(distance * self.__cmsToSecs)
-		currentSecs = 0
+		targetMilliSecs = abs(distance * self.__cmsToSecs)
+		currentMilliSecs = 0
 		
 		if(distance < 0):
 			leftDir = self.__leftFwdDir * -1
@@ -54,9 +54,9 @@ class Movement:
 			leftDir = self.__leftFwdDir
 			rightDir = self.__rightFwdDir
 		
-		while(currentSecs < targetSecs):
-			time.sleep(1)
-			currentSecs += 1
+		while(currentMilliSecs < targetMilliSecs):
+			time.sleep(.001)
+			currentMilliSecs += 1
 			
 			self.writeToMotor(self.__leftServo, leftDir, self.__defaultSpeed)
 			self.writeToMotor(self.__rightServo, rightDir, self.__defaultSpeed)
