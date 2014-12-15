@@ -22,11 +22,11 @@ while(True):
 		
 		# turn left
 		if(delta > threshold):
-			m.turnDegrees(delta/10)
+			m.turnSpeed(delta/10)
 			
 		#turn right
 		if(delta < -threshold):
-			m.turnDegrees(delta/10)
+			m.turnSpeed(delta/10)
 		
-		
-	time.sleep(2)
+		if(delta <= threshold and delta > -threshold):
+			m.turnSpeed(0)
