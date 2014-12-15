@@ -46,7 +46,7 @@ class Movement:
 		if(velocity < 0):
 			direction = -1
 			speed = abs(velocity)
-		else
+		else:
 			direction = 1
 			speed = velocity
 			
