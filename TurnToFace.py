@@ -16,17 +16,17 @@ while(True):
 	faceLocation = f.FindFace()
 	
 	if(faceLocation[0] != 0 and faceLocation[1] != 0):
-		delta = 240 - faceLocation[0]
+		delta = faceLocation[0]-320
 		
 		print "delta:" + str(delta)
 		
 		# turn left
 		if(delta > threshold):
-			m.turnDegrees(delta)
+			m.turnDegrees(delta/10)
 			
 		#turn right
 		if(delta < -threshold):
-			m.turnDegrees(delta)
+			m.turnDegrees(delta/10)
 		
 		
 	time.sleep(2)
