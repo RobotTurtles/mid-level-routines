@@ -44,14 +44,16 @@ class Movement:
 	
 	def turnSpeed(self, velocity):
 		if(velocity < 0):
-			direction = -1
+			leftDir = self.__leftFwdDir * -1
+			rightDir = self.__rightFwdDir
 			speed = abs(velocity)
 		else:
-			direction = 1
+			leftDir = self.__leftFwdDir
+			rightDir = self.__rightFwdDir * -1
 			speed = velocity
-			
-		self.writeToMotor(self.__leftServo, direction, velocity)
-		self.writeToMotor(self.__rightServo, -1*direction, velocity)
+		
+		self.writeToMotor(self.__leftServo, leftDir, speed)
+		self.writeToMotor(self.__rightServo, rightDir, speed)
 		
 	def moveCM(self, distance):
 		"""Move Robot forward/backward by distance in cms"""
