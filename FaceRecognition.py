@@ -3,23 +3,19 @@
 #
 import cv2
 import datetime
-
+import logging
+		
 class FaceRecognition:
 	
 	def __init__(self):
-		#self.webcam = cv2.VideoCapture(0)				
+		self.logger = logger or logging.getLogger(__name__)
 		
+		self.webcam = cv2.VideoCapture(0)				
 		self.frontalface = cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml")		# frontal face pattern detection
-		
 		self.Cface = [0,0,0]
 		
 	def FindFace(self, filename='lastFaceFound.jpg', capturePath='captures', missedPath='misses'):
 			self.Cface = [0,0,0]
-			self.webcam = cv2.VideoCapture(0)	
-			ret, img = self.webcam.read()
-			ret, img = self.webcam.read()	
-			ret, img = self.webcam.read()
-			ret, img = self.webcam.read()
 			ret, img = self.webcam.read()
 			gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 			
@@ -31,14 +27,14 @@ class FaceRecognition:
 			
 				if(x != 0 and y != 0):
 					filename = capturePath + '/' + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")	
-					print filename	
+					self.logger.info(filename)
 					cv2.imwrite(filename, img)
 			
 			if(self.Cface[2] == 0):
 				filename = missedPath + '/' + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")	
-				print filename	
+				self.logger.info(filename)
 				cv2.imwrite(filename, img)
 			
-			print str(self.Cface[0]) + "," + str(self.Cface[1]) + ",width:"+ str(self.Cface[2])
+			self.logger.info(str(self.Cface[0]) + "," + str(self.Cface[1]) + ",width:"+ str(self.Cface[2]))
 			self.webcam.release()	
 			return self.Cface

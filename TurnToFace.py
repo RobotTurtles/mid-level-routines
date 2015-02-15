@@ -7,11 +7,31 @@
 from Movement import Movement
 from FaceRecognition import FaceRecognition
 import time
+import logging
+import os
 
 m = Movement()
 f = FaceRecognition()
 threshold = 5
 targetWidth = 150
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+directory = '~/logs'
+
+if not os.path.exists(directory):
+    os.makedirs(directory)
+	
+handler = logging.FileHandler(directory + '/TurtleThoughts.log')
+handler.setLevel(logging.INFO)
+
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+
+logger.addHandler(handler)
+
+logger.info('Started Turn To Face')
 
 while(True):
 	faceLocation = f.FindFace()
