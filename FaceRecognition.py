@@ -29,7 +29,7 @@ class FaceRecognition:
 				self.Cface = [(w/2+x),(h/2+y),w]
 			
 				if(x != 0 and y != 0):
-					filename = path + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")	
+					filename = path + '/' + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")	
 					print filename	
 					cv2.imwrite(filename, img)
 			
