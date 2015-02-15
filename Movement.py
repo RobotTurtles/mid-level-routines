@@ -17,7 +17,7 @@ class Movement:
 		self.__defaultSpeed = 80
 	
 		self.__degreesToMilliSecs = 5.5
-		self.__cmsToSecs = 250
+		self.__cmsToMilliSecs = 25
 	
 	def turnDegrees(self, distance):
 		"""Turn Robot left/right by distance in degrees"""
@@ -57,7 +57,7 @@ class Movement:
 		
 	def moveCM(self, distance):
 		"""Move Robot forward/backward by distance in cms"""
-		targetMilliSecs = abs(distance * self.__cmsToSecs)
+		targetMilliSecs = abs(distance * self.__cmsToMilliSecs)
 		currentMilliSecs = 0
 		
 		if(distance < 0):
