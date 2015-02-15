@@ -8,7 +8,7 @@ import logging
 class FaceRecognition:
 	
 	def __init__(self):
-		self.logger = logger or logging.getLogger(__name__)
+		self.logger = logging.getLogger(__name__)
 		
 		self.webcam = cv2.VideoCapture(0)				
 		self.frontalface = cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml")		# frontal face pattern detection
