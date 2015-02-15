@@ -22,6 +22,7 @@ class FaceRecognition:
 			ret, img = self.webcam.read()
 			ret, img = self.webcam.read()
 			gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+			
 	
 			faces = self.frontalface.detectMultiScale(gray, 1.3, 5)
 			for (x,y,w,h) in faces:
@@ -32,10 +33,11 @@ class FaceRecognition:
 					filename = capturePath + '/' + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")	
 					print filename	
 					cv2.imwrite(filename, img)
-				else:
-					filename = missedPath + '/' + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")	
-					print filename	
-					cv2.imwrite(filename, img)
+			
+			if(self.Cface[2] == 0):
+				filename = missedPath + '/' + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")	
+				print filename	
+				cv2.imwrite(filename, img)
 			
 			print str(self.Cface[0]) + "," + str(self.Cface[1]) + ",width:"+ str(self.Cface[2])
 			self.webcam.release()	
