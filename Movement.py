@@ -3,7 +3,8 @@ import time
 class Movement:
 	"""Basic Robot Movement"""
 	
-	def __init__(self, servoDevice = '/dev/servoblaster'):
+	def __init__(self, logger, servoDevice = '/dev/servoblaster'):
+		self.logger = logger
 		
 		self.__servoDevice = servoDevice
 		self.__MotorController = open(self.__servoDevice, 'w')

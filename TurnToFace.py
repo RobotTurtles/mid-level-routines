@@ -43,31 +43,31 @@ while(True):
 	if(faceLocation[0] != 0 and faceLocation[1] != 0):
 		delta = faceLocation[0]-320
 		
-		print "delta:" + str(delta)
+		logger.info("Face Delta from center is:" + str(delta))
 		
 		# turn left
 		if(delta > threshold):
-			m.turnDegrees(-5)
+			m.turnDegrees(10)
 			
 		#turn right
 		if(delta < -threshold):
-			m.turnDegrees(5)
+			m.turnDegrees(10)
 		
 		# target is within threshold, move closer/farther
 		if(delta <= threshold and delta > -threshold):
 			
-			print "Inside Threshold"	
+			logger.info("Inside Threshold")
 			m.turnSpeed(0)
 			
 			if(faceLocation[2] < targetWidth-2):
-				print "Moving Forward"
-				m.moveCM(2)
+				logger.info("Moving Forward")
+				m.moveCM(3)
 			
 			if(faceLocation[2] > targetWidth+2):
-				print "Moving Backward"
-				m.moveCM(-2)
+				logger.info("Moving Backward")
+				m.moveCM(-3)
 
 			if(faceLocation[2] > targetWidth-2 and faceLocation[2] < targetWidth+2):
-				print "Staying Still"
+				logger.info("Staying Still")
 				m.moveCM(0)
 			
