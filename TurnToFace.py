@@ -10,15 +10,10 @@ import time
 import logging
 import os
 
-m = Movement()
-f = FaceRecognition()
-threshold = 5
-targetWidth = 150
-
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-directory = '~/logs'
+directory = '/home/pi/logs'
 
 if not os.path.exists(directory):
     os.makedirs(directory)
@@ -29,9 +24,15 @@ handler.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
 
-logger.addHandler(handler)
+logger.addHandler()
 
 logger.info('Started Turn To Face')
+
+m = Movement()
+f = FaceRecognition(logger)
+threshold = 5
+targetWidth = 150
+
 
 while(True):
 	faceLocation = f.FindFace()
