@@ -26,11 +26,11 @@ while(True):
 		
 		# turn left
 		if(delta > threshold):
-			m.turnDegrees(-2)
+			m.turnDegrees(-5)
 			
 		#turn right
 		if(delta < -threshold):
-			m.turnDegrees(2)
+			m.turnDegrees(5)
 		
 		# target is within threshold, move closer/farther
 		if(delta <= threshold and delta > -threshold):

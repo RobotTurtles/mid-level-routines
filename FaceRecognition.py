@@ -13,7 +13,7 @@ class FaceRecognition:
 		
 		self.Cface = [0,0,0]
 		
-	def FindFace(self, filename='lastFaceFound.jpg', path='images'):
+	def FindFace(self, filename='lastFaceFound.jpg', capturePath='captures', missedPath='misses'):
 			self.Cface = [0,0,0]
 			self.webcam = cv2.VideoCapture(0)	
 			ret, img = self.webcam.read()
@@ -29,7 +29,11 @@ class FaceRecognition:
 				self.Cface = [(w/2+x),(h/2+y),w]
 			
 				if(x != 0 and y != 0):
-					filename = path + '/' + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")	
+					filename = capturePath + '/' + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")	
+					print filename	
+					cv2.imwrite(filename, img)
+				else:
+					filename = missedPath + '/' + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")	
 					print filename	
 					cv2.imwrite(filename, img)
 			
