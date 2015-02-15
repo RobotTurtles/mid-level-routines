@@ -10,12 +10,17 @@ class FaceRecognition:
 	def __init__(self):
 		self.logger = logging.getLogger(__name__)
 		
-		self.webcam = cv2.VideoCapture(0)				
+		#self.webcam = cv2.VideoCapture(0)				
 		self.frontalface = cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml")		# frontal face pattern detection
 		self.Cface = [0,0,0]
 		
 	def FindFace(self, filename='lastFaceFound.jpg', capturePath='captures', missedPath='misses'):
 			self.Cface = [0,0,0]
+			self.webcam = cv2.VideoCapture(0)	
+			ret, img = self.webcam.read()
+			ret, img = self.webcam.read()	
+			ret, img = self.webcam.read()
+			ret, img = self.webcam.read()
 			ret, img = self.webcam.read()
 			gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 			
