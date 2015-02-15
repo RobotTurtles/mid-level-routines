@@ -1,4 +1,7 @@
 from Movement import Movement
 
-while(true)
-    writeToMotor(0,0,0)
+m = Movement()
+
+while True:
+    m.writeToMotor(0,0,0)
+    m.writeToMotor(1,0,0)

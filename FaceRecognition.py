@@ -33,6 +33,6 @@ class FaceRecognition:
 					print filename	
 					cv2.imwrite(filename, img)
 			
-			print str(self.Cface[0]) + "," + str(self.Cface[1]) + ",width:"+ str(self.Cface[2]))
+			print str(self.Cface[0]) + "," + str(self.Cface[1]) + ",width:"+ str(self.Cface[2])
 			self.webcam.release()	
 			return self.Cface
