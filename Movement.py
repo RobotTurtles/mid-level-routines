@@ -62,7 +62,7 @@ class Movement:
 		
 		if(distance < 0):
 			leftDir = self.__leftFwdDir * -1
-			rightDir = self.__rightFwdDir -1
+			rightDir = self.__rightFwdDir * -1
 		else:
 			leftDir = self.__leftFwdDir
 			rightDir = self.__rightFwdDir
