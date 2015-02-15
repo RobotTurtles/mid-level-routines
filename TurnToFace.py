@@ -11,7 +11,7 @@ import time
 m = Movement()
 f = FaceRecognition()
 threshold = 5
-targetWidth = 10
+targetWidth = 150
 
 while(True):
 	faceLocation = f.FindFace()
@@ -26,22 +26,27 @@ while(True):
 		
 		# turn left
 		if(delta > threshold):
-			m.turnSpeed(delta/10)
+			m.turnDegrees(-2)
 			
 		#turn right
 		if(delta < -threshold):
-			m.turnSpeed(delta/10)
+			m.turnDegrees(2)
 		
 		# target is within threshold, move closer/farther
 		if(delta <= threshold and delta > -threshold):
+			
+			print "Inside Threshold"	
 			m.turnSpeed(0)
 			
 			if(faceLocation[2] < targetWidth-2):
+				print "Moving Forward"
 				m.moveCM(2)
 			
 			if(faceLocation[2] > targetWidth+2):
+				print "Moving Backward"
 				m.moveCM(-2)
 
 			if(faceLocation[2] > targetWidth-2 and faceLocation[2] < targetWidth+2):
+				print "Staying Still"
 				m.moveCM(0)
 			
