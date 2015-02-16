@@ -28,13 +28,13 @@ logger.addHandler(handler)
 
 logger.info('Started Turn To Face')
 
-m = Movement()
+m = Movement(logger)
 f = FaceRecognition(logger)
 center = 320
 turnThreshold = 15
 
-moveThreshold = 20
-targetWidth = 150
+moveThreshold = 10
+targetWidth = 170
 
 while(True):
 	faceLocation = f.FindFace()
@@ -43,7 +43,7 @@ while(True):
 		faceLocation[2] = targetWidth
 	
 	if(faceLocation[0] != 0 and faceLocation[1] != 0):
-		delta = faceLocation[0]-center)
+		delta = faceLocation[0]-center
 		
 		logger.info("Face Delta from center is:" + str(delta))
 		
@@ -65,11 +65,11 @@ while(True):
 			
 			if(width < targetWidth-moveThreshold):
 				logger.info("Moving Forward")
-				m.moveCM(3)
+				m.moveCM(5)
 			
 			if(width > targetWidth+moveThreshold):
 				logger.info("Moving Backward")
-				m.moveCM(-3)
+				m.moveCM(-5)
 
 			if(width > targetWidth-moveThreshold and width < targetWidth+moveThreshold):
 				logger.info("Staying Still")
