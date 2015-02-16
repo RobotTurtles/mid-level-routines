@@ -34,7 +34,7 @@ center = 320
 turnThreshold = 5
 
 moveThreshold = 10
-targetWidth = 180
+targetWidth = 160
 
 while(True):
 	faceLocation = f.FindFace()
