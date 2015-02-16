@@ -31,7 +31,7 @@ logger.info('Started Turn To Face')
 m = Movement(logger)
 f = FaceRecognition(logger)
 center = 320
-turnThreshold = 25
+turnThreshold = 5
 
 moveThreshold = 10
 targetWidth = 180
@@ -43,21 +43,22 @@ while(True):
 		faceLocation[2] = targetWidth
 	
 	if(faceLocation[0] != 0 and faceLocation[1] != 0):
+		width = faceLocation[2]
 		delta = faceLocation[0]-center
 		
 		logger.info("Face Delta from center is:" + str(delta))
 		
 		# turn left
-		if(delta > turnThreshold):
+		if(delta > turnThreshold + (width/2)):
 			m.turnDegrees(10)
 			
 		#turn right
-		if(delta < -turnThreshold):
+		if(delta < -turnThreshold - (width/2)):
 			m.turnDegrees(-10)
 		
 		# target is within turnThreshold, move closer/farther
-		if(delta <= turnThreshold and delta > -turnThreshold):
-			width = faceLocation[2]
+		if(delta <= (turnThreshold+(width/2)) and delta >= (-turnThreshold-(width/2))):
+			
 			logger.info('Movement Width is:' + str(width))
 			
 			logger.info("Inside Turn Threshold")
