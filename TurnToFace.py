@@ -5,6 +5,7 @@
 ####################
 
 from Movement import Movement
+from SimMovement import SimMovement
 from FaceRecognition import FaceRecognition
 import time
 import logging
@@ -13,7 +14,8 @@ import os
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-directory = '/home/pi/logs'
+#directory = '/home/pi/logs'
+directory = '.'
 
 if not os.path.exists(directory):
     os.makedirs(directory)
@@ -28,13 +30,14 @@ logger.addHandler(handler)
 
 logger.info('Started Turn To Face')
 
-m = Movement(logger)
+# m = Movement(logger)
+m = SimMovement(logger)
 f = FaceRecognition(logger)
-center = 320
+center = 666
 turnThreshold = 5
 
-moveThreshold = 10
-targetWidth = 160
+moveThreshold = 30
+targetWidth = 280
 
 while(True):
 	faceLocation = f.FindFace()
@@ -46,14 +49,16 @@ while(True):
 		width = faceLocation[2]
 		delta = faceLocation[0]-center
 		
-		logger.info("Face Delta from center is:" + str(delta))
+		logger.info("Face is at %d, delta from center is %d:" % (faceLocation[0], delta))
 		
 		# turn left
-		if(delta > turnThreshold + (width/2)):
+		if(delta > turnThreshold + (width/4)):
+                        logger.info("Turning left a bit")
 			m.turnDegrees(10)
 			
 		#turn right
-		if(delta < -turnThreshold - (width/2)):
+		if(delta < -turnThreshold - (width/4)):
+                        logger.info("Turning right a bit")
 			m.turnDegrees(-10)
 		
 		# target is within turnThreshold, move closer/farther
