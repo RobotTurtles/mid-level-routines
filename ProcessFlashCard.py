@@ -23,7 +23,7 @@ class ProcessFlashCard:
         :return:
         """
         self.menuTemplates = dict()
-        self.menuTemplates = {1:'FlashCards/execute.jpg',2:'FlashCards/record.jpg',3:'FlashCards/FindFace.jpg'}
+        self.menuTemplates = {0:'FlashCards/FindFace.jpg', 1:'FlashCards/execute.jpg',2:'FlashCards/record.jpg'}
 
         self.moveTemplates = dict()
         self.moveTemplates = {0:'FlashCards/save.jpg', 1:'FlashCards/forward.jpg',2:'FlashCards/reverse.jpg',3:'FlashCards/left.jpg',4:'FlashCards/right.jpg', 5:'FlashCards/abort.jpg'}

@@ -12,7 +12,7 @@ class TestSequenceFunctions(unittest.TestCase):
         self.__targetFile = 'testResults.txt'
         self.flashCard = ProcessFlashCard(self.__targetFile)
 
-    @unittest.skip("Seems to not work, not having it cause failures in short term")
+    @unittest.skip("Currently matching on other cards. Placing this test on back burner")
     def test_recognize_wrongCard(self):
         '''
         Tests to see if it *does not* see a wrong image
