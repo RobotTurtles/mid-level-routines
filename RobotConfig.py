@@ -1,6 +1,6 @@
 from Movement import Movement
 
-m = Movement()
+m = Movement('nonfile')
 
 while True:
     m.writeToMotor(0, 0, 0)
