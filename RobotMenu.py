@@ -23,18 +23,18 @@ class RobotMenu:
         self.logger.info('Getting Menu Option:')
         while(True):
 
-            mode = self.qr.lookForCode()
+            mode = self.qr.lookForCode()[0]
 
             # Find Face
             if(mode == 'findface'):
                 self.logger.info('Executing Find Face')
-
+		print 'Find Face'
                 continue
 
             # Execute Stored Program
             if(mode == 'execute'):
                 self.logger.info('Executing Stored Program')
-
+                print 'Execute'
                 self.logger.info('Total Steps: '+ str(len(self.savedCommands)))
                 for command in self.savedCommands:
                     self.logger.info('Executing: '+command.name)
@@ -45,12 +45,13 @@ class RobotMenu:
             # Save a new Program
             if(mode == 'save'):
                 self.logger.info('Saving a new Program')
-                self.addCommands()
+                print 'save'
+		self.addCommands()
                 continue
 
             # No menu found, report QR code found
-            self.logger.info('Found'+mode)
-
+            self.logger.info('Found '+mode)
+            print 'Found '+str(mode)
 
 
 
@@ -62,44 +63,51 @@ class RobotMenu:
         while(True):
             filename = self.capturePath + '/' + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")
 
-            nextCommand = self.qr.lookForCode()
+            nextCommand = self.qr.lookForCode()[0]
 
             if(nextCommand == 'save'):
                 self.logger.info('Found Save Command 0, exiting')
                 self.savedCommands = cmdBuffer
-                return
+                print 'save'
+		return
 
             # Abort this save process
             if(nextCommand == 'abort'):
                 self.logger.info('Found Abort Command 5, exiting')
-                cmdBuffer = None
+                print 'abort'
+		cmdBuffer = None
                 return
 
             # Forward
             if(nextCommand == 'forward'):
                 self.logger.info('Found Forward Command 1')
                 cmdBuffer.append(Forward(self.movement))
-                continue
+                print 'forward'
+		continue
 
             # Reverse
             if(nextCommand == 'reverse'):
                 self.logger.info('Found Reverse Command 2')
                 cmdBuffer.append(Reverse(self.movement))
-                continue
+                print 'reverse'
+		continue
 
             # Left
             if(nextCommand == 'left'):
                 self.logger.info('Found Left Command 3')
                 cmdBuffer.append(Left(self.movement))
+		print 'left'
                 continue
 
             # Right
             if(nextCommand == 'right'):
                 self.logger.info('Found Right Command 4')
                 cmdBuffer.append(Right(self.movement))
+		print 'right'
                 continue
 
             self.logger.info('No Match found')
+	    print 'No match found'
 
     def getMenuOption(self):
 

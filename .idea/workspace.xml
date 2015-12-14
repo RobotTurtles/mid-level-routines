@@ -2,8 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="478171e2-6392-4aae-af37-fe4066cd72a6" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureFace.py" afterPath="$PROJECT_DIR$/CaptureFace.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FaceRecognition.py" afterPath="$PROJECT_DIR$/FaceRecognition.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Movement.py" afterPath="$PROJECT_DIR$/Movement.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QRCodeReader.py" afterPath="$PROJECT_DIR$/QRCodeReader.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RobotConfig.py" afterPath="$PROJECT_DIR$/RobotConfig.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RobotMenu.py" afterPath="$PROJECT_DIR$/RobotMenu.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RunRobot.py" afterPath="$PROJECT_DIR$/RunRobot.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TurnToFace.py" afterPath="$PROJECT_DIR$/TurnToFace.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TurtleCommands.py" afterPath="$PROJECT_DIR$/TurtleCommands.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/findQRCode.py" afterPath="$PROJECT_DIR$/findQRCode.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_Movement.py" afterPath="$PROJECT_DIR$/test_Movement.py" />
     </list>
     <ignored path="mid-level-routines.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,8 +36,8 @@
       <file leaf-file-name="QRCodeReader.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/QRCodeReader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.537037">
-              <caret line="29" column="12" selection-start-line="29" selection-start-column="12" selection-end-line="29" selection-end-column="12" />
+            <state vertical-scroll-proportion="0.5">
+              <caret line="27" column="4" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="4" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -50,7 +59,7 @@
         <entry file="file://$PROJECT_DIR$/RobotMenu.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+              <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -886,15 +895,15 @@
     <entry file="file://$PROJECT_DIR$/RobotMenu.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/QRCodeReader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.537037">
-          <caret line="29" column="12" selection-start-line="29" selection-start-column="12" selection-end-line="29" selection-end-column="12" />
+        <state vertical-scroll-proportion="0.5">
+          <caret line="27" column="4" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="4" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
