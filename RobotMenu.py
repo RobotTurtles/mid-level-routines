@@ -10,7 +10,6 @@ class RobotMenu:
 
     def __init__(self, logger, movement):
         self.logger = logger
-        self.webcam = cv2.VideoCapture(0)
         self.savedCommands = list()
         self.capturePath='captures'
         self.missedPath='misses'
@@ -21,16 +20,16 @@ class RobotMenu:
     def execute(self):
 
 
+        self.logger.info('Getting Menu Option:')
         while(True):
 
-            self.logger.info('Getting Menu Option:')
             mode = self.qr.lookForCode()
 
             # Find Face
             if(mode == 'findface'):
                 self.logger.info('Executing Find Face')
 
-                pass
+                continue
 
             # Execute Stored Program
             if(mode == 'execute'):
@@ -41,11 +40,16 @@ class RobotMenu:
                     self.logger.info('Executing: '+command.name)
                     command.execute()
                 self.logger.info('Execution Complete')
+                continue
 
             # Save a new Program
             if(mode == 'save'):
                 self.logger.info('Saving a new Program')
                 self.addCommands()
+                continue
+
+            # No menu found, report QR code found
+            self.logger.info('Found'+mode)
 
 
 

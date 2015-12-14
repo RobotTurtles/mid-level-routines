@@ -27,7 +27,7 @@ class QRCodeReader:
                 image = Image.open('/tmp/lastImage.jpg')
                 image.load()
                 codes = zbarlight.scan_codes('qrcode', image)
-
+            
             if codes != None:
                 return codes
 
