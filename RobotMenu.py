@@ -4,19 +4,18 @@ __author__ = 'Alex'
 
 import cv2
 import datetime
-from ProcessFlashCard import ProcessFlashCard
-
+from QRCodeReader import QRCodeReader
 
 class RobotMenu:
 
     def __init__(self, logger, movement):
         self.logger = logger
         self.webcam = cv2.VideoCapture(0)
-        self.flashCards = ProcessFlashCard(logger)
         self.savedCommands = list()
         self.capturePath='captures'
         self.missedPath='misses'
         self.movement = movement
+        self.qr = QRCodeReader(cv2.VideoCapture(0))
 
 
     def execute(self):
@@ -25,16 +24,16 @@ class RobotMenu:
         while(True):
 
             self.logger.info('Getting Menu Option:')
-            mode = self.getMenuOption()
+            mode = self.qr.lookForCode()
 
             # Find Face
-            if(mode == 0):
+            if(mode == 'findface'):
                 self.logger.info('Executing Find Face')
 
                 pass
 
             # Execute Stored Program
-            if(mode == 1):
+            if(mode == 'execute'):
                 self.logger.info('Executing Stored Program')
 
                 self.logger.info('Total Steps: '+ str(len(self.savedCommands)))
@@ -44,7 +43,7 @@ class RobotMenu:
                 self.logger.info('Execution Complete')
 
             # Save a new Program
-            if(mode == 2):
+            if(mode == 'save'):
                 self.logger.info('Saving a new Program')
                 self.addCommands()
 
@@ -59,72 +58,47 @@ class RobotMenu:
         while(True):
             filename = self.capturePath + '/' + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")
 
-            self.webcam.read()
-            self.webcam.read()
-            self.webcam.read()
-            self.webcam.read()
-            ret, img = self.webcam.read()
+            nextCommand = self.qr.lookForCode()
 
-            nextCommand = self.flashCards.get_move_choice(img)
-
-            if(nextCommand == 0):
+            if(nextCommand == 'save'):
                 self.logger.info('Found Save Command 0, exiting')
-                filename = self.capturePath + '/save_' + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")
-                cv2.imwrite(filename, img)
                 self.savedCommands = cmdBuffer
                 return
 
             # Abort this save process
-            if(nextCommand == 5):
+            if(nextCommand == 'abort'):
                 self.logger.info('Found Abort Command 5, exiting')
-                filename = self.capturePath + '/abort_' + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")
-                cv2.imwrite(filename, img)
                 cmdBuffer = None
                 return
 
             # Forward
-            if(nextCommand == 1):
+            if(nextCommand == 'forward'):
                 self.logger.info('Found Forward Command 1')
-                filename = self.capturePath + '/forward_' + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")
-                cv2.imwrite(filename, img)
                 cmdBuffer.append(Forward(self.movement))
                 continue
 
             # Reverse
-            if(nextCommand == 2):
+            if(nextCommand == 'reverse'):
                 self.logger.info('Found Reverse Command 2')
-                filename = self.capturePath + '/reverse_' + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")
-                cv2.imwrite(filename, img)
                 cmdBuffer.append(Reverse(self.movement))
                 continue
 
             # Left
-            if(nextCommand == 3):
+            if(nextCommand == 'left'):
                 self.logger.info('Found Left Command 3')
-                filename = self.capturePath + '/left_' + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")
-                cv2.imwrite(filename, img)
                 cmdBuffer.append(Left(self.movement))
                 continue
 
             # Right
-            if(nextCommand == 4):
+            if(nextCommand == 'right'):
                 self.logger.info('Found Right Command 4')
-                filename = self.capturePath + '/right_' + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")
-                cv2.imwrite(filename, img)
                 cmdBuffer.append(Right(self.movement))
                 continue
 
             self.logger.info('No Match found')
-            filename = self.missedPath + '/' + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")
-            cv2.imwrite(filename, img)
-
 
     def getMenuOption(self):
-        self.webcam.read()
-        self.webcam.read()
-        self.webcam.read()
-        self.webcam.read()
-        ret, img = self.webcam.read()
+
 
         returnOption = self.flashCards.get_menu_choice(img)
 
