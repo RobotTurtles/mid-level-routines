@@ -5,9 +5,13 @@
 
 from Movement import Movement
 from FaceRecognition import FaceRecognition
+from QRCodeReader import QRCodeReader
+from RobotMenu import RobotMenu
+
 import time
 import logging
 import os
+import cv2
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -27,51 +31,68 @@ logger.addHandler(handler)
 
 logger.info('Started Turn To Face')
 
+webcam = cv2.VideoCapture(0)
+
 m = Movement(logger)
-f = FaceRecognition(logger)
+f = FaceRecognition(logger, webcam)
+qr = QRCodeReader(webcam)
+menu = RobotMenu()
+
 center = 320
 turnThreshold = 5
 
 moveThreshold = 10
 targetWidth = 160
 
-while (True):
-    faceLocation = f.FindFace()
 
-    if (faceLocation[2] == 0):
-        faceLocation[2] = targetWidth
+def moveToFace():
+    while (True):
+        qrCode = qr.lookForCode()
 
-    if (faceLocation[0] != 0 and faceLocation[1] != 0):
-        width = faceLocation[2]
-        delta = faceLocation[0] - center
+        if(qrCode != None):
+            return qrCode
 
-        logger.info("Face Delta from center is:" + str(delta))
+        faceLocation = f.FindFace()
 
-        # turn left
-        if (delta > turnThreshold + (width / 2)):
-            m.turnDegrees(10)
+        if (faceLocation[2] == 0):
+            faceLocation[2] = targetWidth
 
-            # turn right
-        if (delta < -turnThreshold - (width / 2)):
-            m.turnDegrees(-10)
+        if (faceLocation[0] != 0 and faceLocation[1] != 0):
+            width = faceLocation[2]
+            delta = faceLocation[0] - center
 
-        # target is within turnThreshold, move closer/farther
-        if (delta <= (turnThreshold + (width / 2)) and delta >= (-turnThreshold - (width / 2))):
+            logger.info("Face Delta from center is:" + str(delta))
 
-            logger.info('Movement Width is:' + str(width))
+            # turn left
+            if (delta > turnThreshold + (width / 2)):
+                m.turnDegrees(10)
 
-            logger.info("Inside Turn Threshold")
-            m.turnSpeed(0)
+                # turn right
+            if (delta < -turnThreshold - (width / 2)):
+                m.turnDegrees(-10)
 
-            if (width < targetWidth - moveThreshold):
-                logger.info("Moving Forward")
-                m.moveCM(8)
+            # target is within turnThreshold, move closer/farther
+            if (delta <= (turnThreshold + (width / 2)) and delta >= (-turnThreshold - (width / 2))):
 
-            if (width > targetWidth + moveThreshold):
-                logger.info("Moving Backward")
-                m.moveCM(-8)
+                logger.info('Movement Width is:' + str(width))
 
-            if (width > targetWidth - moveThreshold and width < targetWidth + moveThreshold):
-                logger.info("Staying Still")
-                m.moveCM(0)
+                logger.info("Inside Turn Threshold")
+                m.turnSpeed(0)
+
+                if (width < targetWidth - moveThreshold):
+                    logger.info("Moving Forward")
+                    m.moveCM(8)
+
+                if (width > targetWidth + moveThreshold):
+                    logger.info("Moving Backward")
+                    m.moveCM(-8)
+
+                if (width > targetWidth - moveThreshold and width < targetWidth + moveThreshold):
+                    logger.info("Staying Still")
+                    m.moveCM(0)
+
+
+while(True):
+    qrCode = moveToFace()
+    menu.execute(qrCode)
 			

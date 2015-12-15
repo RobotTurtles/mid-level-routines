@@ -7,24 +7,28 @@ import cv2
 
 
 class FaceRecognition:
-    def __init__(self, logger):
+    def __init__(self, logger, videoStream):
         """
 
         :type self: object
         """
         self.logger = logger
         self.frontalface = cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml")
-
+        self.webcam = videoStream
         self.Cface = [0, 0, 0]
 
     def FindFace(self, filename='lastFaceFound.jpg', capturePath='captures', missedPath='misses'):
         self.Cface = [0, 0, 0]
-        self.webcam = cv2.VideoCapture(0)
-        ret, img = self.webcam.read()
-        ret, img = self.webcam.read()
-        ret, img = self.webcam.read()
-        ret, img = self.webcam.read()
-        ret, img = self.webcam.read()
+
+        moreFramesToRead = True
+
+        # Clear any frames in the buffer
+        while(moreFramesToRead):
+            ret, new_img = self.webcam.read()
+            if(ret == False):
+                break
+            img = new_img
+
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
         faces = self.frontalface.detectMultiScale(gray, 1.3, 5)

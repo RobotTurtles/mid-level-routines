@@ -18,17 +18,21 @@ class QRCodeReader:
         :return: empty string if nothing found, value of qr code if found
         '''
 
-        timeout = 100
+        moreFramesToRead = True
 
-        while(timeout>0):
-            ret, img = self.webcam.read()
+        # Clear any frames in the buffer
+        while(moreFramesToRead):
+            ret, new_img = self.webcam.read()
+            if(ret == False):
+                break
+            img = new_img
 
-            cv2.imwrite('/tmp/lastImage.jpg', img)
-            image = Image.open('/tmp/lastImage.jpg')
-            image.load()
-            codes = zbarlight.scan_codes('qrcode', image)
+        cv2.imwrite('/tmp/lastQRImage.jpg', img)
+        image = Image.open('/tmp/lastQRqrCodesImage.jpg')
+        image.load()
+        codes = zbarlight.scan_codes('qrcode', image)
             
-            if codes != None:
-                return codes
+        if codes != None:
+            return codes
 
         return None
