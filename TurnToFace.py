@@ -36,7 +36,7 @@ webcam = cv2.VideoCapture(0)
 m = Movement(logger)
 f = FaceRecognition(logger, webcam)
 qr = QRCodeReader(webcam)
-menu = RobotMenu()
+menu = RobotMenu(logger, m,qr)
 
 center = 320
 turnThreshold = 5
@@ -94,5 +94,7 @@ def moveToFace():
 
 while(True):
     qrCode = moveToFace()
-    menu.execute(qrCode)
+    time.sleep(5)
+    print str(qrCode) 
+    menu.execute()
 			

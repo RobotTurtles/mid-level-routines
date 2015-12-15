@@ -1,6 +1,7 @@
 from PIL import Image
 import cv2
 import zbarlight
+import sys
 
 class QRCodeReader:
     def __init__(self, webcam):
@@ -17,7 +18,6 @@ class QRCodeReader:
         '''
         :return: empty string if nothing found, value of qr code if found
         '''
-
         moreFramesToRead = True
 
         # Clear any frames in the buffer
@@ -26,9 +26,16 @@ class QRCodeReader:
             if(ret == False):
                 break
             img = new_img
+            moreFramesToRead = False
 
-        cv2.imwrite('/tmp/lastQRImage.jpg', img)
-        image = Image.open('/tmp/lastQRqrCodesImage.jpg')
+        try:
+            img
+        except NameError:
+            return None
+
+        filename = '/tmp/lastQRImage.jpg'
+        cv2.imwrite(filename, img)
+        image = Image.open(filename)
         image.load()
         codes = zbarlight.scan_codes('qrcode', image)
             

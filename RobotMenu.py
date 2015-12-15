@@ -4,17 +4,18 @@ __author__ = 'Alex'
 
 import cv2
 import datetime
+import time
 from QRCodeReader import QRCodeReader
 
 class RobotMenu:
 
-    def __init__(self, logger, movement):
+    def __init__(self, logger, movement,qrCodeReader):
         self.logger = logger
         self.savedCommands = list()
         self.capturePath='captures'
         self.missedPath='misses'
         self.movement = movement
-        self.qr = QRCodeReader(cv2.VideoCapture(0))
+        self.qr = qrCodeReader
 
 
     def execute(self):
@@ -30,8 +31,10 @@ class RobotMenu:
             if(qrCodes == None):
                 continue
 
+            time.sleep(5)
             mode = qrCodes[0]
-
+            
+            print 'Mode: '+str(mode) 
             # Find Face
             if(mode == 'findface'):
                 self.logger.info('Executing Find Face')
@@ -119,4 +122,4 @@ class RobotMenu:
                 continue
 
             self.logger.info('No Match found')
-            print 'No match found'
+            print 'No match found, command: ' + nextCommand

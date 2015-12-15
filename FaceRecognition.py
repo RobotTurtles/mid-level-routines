@@ -28,6 +28,7 @@ class FaceRecognition:
             if(ret == False):
                 break
             img = new_img
+            moreFramesToRead = False
 
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -47,5 +48,4 @@ class FaceRecognition:
             cv2.imwrite(filename, img)
 
         self.logger.info(str(self.Cface[0]) + "," + str(self.Cface[1]) + ",width:" + str(self.Cface[2]))
-        self.webcam.release()
         return self.Cface
