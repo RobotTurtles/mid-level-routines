@@ -25,10 +25,10 @@ class DanceRoutines:
 
     def nod(self):
         self.logger.info("DanceRoutines: Nod")
-        self.m.driveCM(self.nodDistance)
-        self.m.driveCM(-self.nodDistance)
-        self.m.driveCM(self.nodDistance)
-        self.m.driveCM(-self.nodDistance)
+        self.m.moveCM(self.nodDistance)
+        self.m.moveCM(-self.nodDistance)
+        self.m.moveCM(self.nodDistance)
+        self.m.moveCM(-self.nodDistance)
 
     def shakeNo(self):
         self.logger.info("DanceRoutines: Shake No")
@@ -52,8 +52,8 @@ class DanceRoutines:
         self.m.turnDegrees(self.turnAboutDegrees)
 
         # That is what it is all about :)
-        self.m.driveCM(moveDistance)
-        self.m.driveCM(-moveDistance)
+        self.m.moveCM(moveDistance)
+        self.m.moveCM(-moveDistance)
 
     def rightHokiePokie(self):
         self.logger.info("DanceRoutines: Right Hokie Pokie")
@@ -70,5 +70,5 @@ class DanceRoutines:
         self.m.turnDegrees(self.turnAboutDegrees)
 
         # That is what it is all about :)
-        self.m.driveCM(moveDistance)
-        self.m.driveCM(-moveDistance)
+        self.m.moveCM(moveDistance)
+        self.m.moveCM(-moveDistance)

@@ -38,7 +38,7 @@ m = Movement(logger)
 f = FaceRecognition(logger, webcam)
 qr = QRCodeReader(webcam, logger)
 danceRoutines = DanceRoutines(m,logger)
-menu = RobotMenu(logger, m,qr)
+menu = RobotMenu(logger, m,qr,danceRoutines)
 
 center = 320
 turnThreshold = 5

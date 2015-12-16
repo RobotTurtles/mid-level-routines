@@ -43,7 +43,6 @@ class QRCodeReader:
         if codes != None:
             if(codes[0] != self.lastCodeRead):
                 self.lastCodeRead = codes[0]
-                self.logger.Info('Found Code' + codes[0])
                 return codes[0]
             else:
                 return None
