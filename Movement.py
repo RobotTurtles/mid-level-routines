@@ -44,6 +44,54 @@ class Movement:
         self.writeToMotor(self.__rightServo, self.__rightFwdDir, 0)
         return True
 
+    def turnLeftArm(self, distance):
+        """
+        Turn Left arm some # of degrees
+        :param distance: Degrees
+        :return: None
+        """
+        targetMilliSecs = abs(distance * self.__degreesToMilliSecs)
+        currentMilliSecs = 0
+
+        if (distance < 0):
+            leftDir = self.__leftFwdDir * -1
+        else:
+            leftDir = self.__leftFwdDir
+
+        while (currentMilliSecs < targetMilliSecs):
+            time.sleep(0.001)
+            currentMilliSecs += 1
+
+            self.writeToMotor(self.__leftServo, leftDir, self.__defaultSpeed)
+
+        self.writeToMotor(self.__leftServo, self.__leftFwdDir, 0)
+
+        return True
+
+    def turnRightArm(self, distance):
+        """
+        Turn Right arm some # of degrees
+        :param distance: Degrees
+        :return: None
+        """
+        targetMilliSecs = abs(distance * self.__degreesToMilliSecs)
+        currentMilliSecs = 0
+
+        if (distance < 0):
+            rightDir = self.__rightFwdDir
+        else:
+            rightDir = self.__rightFwdDir * -1
+
+        while (currentMilliSecs < targetMilliSecs):
+            time.sleep(0.001)
+            currentMilliSecs += 1
+
+            self.writeToMotor(self.__rightServo, rightDir, self.__defaultSpeed)
+
+        self.writeToMotor(self.__rightServo, self.__rightFwdDir, 0)
+        return True
+
+
     def turnSpeed(self, velocity):
         if (velocity < 0):
             leftDir = self.__leftFwdDir * -1

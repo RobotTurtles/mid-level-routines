@@ -9,14 +9,14 @@ from QRCodeReader import QRCodeReader
 
 class RobotMenu:
 
-    def __init__(self, logger, movement,qrCodeReader):
+    def __init__(self, logger, movement,qrCodeReader, danceRoutines):
         self.logger = logger
         self.savedCommands = list()
         self.capturePath='captures'
         self.missedPath='misses'
         self.movement = movement
         self.qr = qrCodeReader
-
+        self.dance = danceRoutines
 
     def execute(self):
 
@@ -24,6 +24,8 @@ class RobotMenu:
         self.logger.info('Getting Menu Option:')
         print 'Entering Menu'
         print 'Do a little dance'
+        self.dance.spinRight()
+
         while(True):
 
             qrCodes = self.qr.lookForCode()
@@ -45,6 +47,7 @@ class RobotMenu:
             if(mode == 'execute'):
                 self.logger.info('Executing Stored Program')
                 print 'Execute'
+                self.dance.nod()
                 self.logger.info('Total Steps: '+ str(len(self.savedCommands)))
                 for command in self.savedCommands:
                     self.logger.info('Executing: '+command.name)
@@ -56,6 +59,7 @@ class RobotMenu:
             if(mode == 'save'):
                 self.logger.info('Saving a new Program')
                 print 'save'
+                self.dance.spinLeft()
                 self.addCommands()
                 continue
 
@@ -84,6 +88,7 @@ class RobotMenu:
                 self.logger.info('Found Save Command 0, exiting')
                 self.savedCommands = cmdBuffer
                 print 'save'
+                self.dance.nod()
                 return
 
             # Abort this save process
@@ -91,6 +96,7 @@ class RobotMenu:
                 self.logger.info('Found Abort Command 5, exiting')
                 print 'abort'
                 cmdBuffer = None
+                self.dance.shakeNo()
                 return
 
             # Forward
@@ -98,6 +104,7 @@ class RobotMenu:
                 self.logger.info('Found Forward Command 1')
                 cmdBuffer.append(Forward(self.movement))
                 print 'forward'
+                self.dance.nod()
                 continue
 
             # Reverse
@@ -105,6 +112,7 @@ class RobotMenu:
                 self.logger.info('Found Reverse Command 2')
                 cmdBuffer.append(Reverse(self.movement))
                 print 'reverse'
+                self.dance.nod()
                 continue
 
             # Left
@@ -112,6 +120,7 @@ class RobotMenu:
                 self.logger.info('Found Left Command 3')
                 cmdBuffer.append(Left(self.movement))
                 print 'left'
+                self.dance.nod()
                 continue
 
             # Right
@@ -119,6 +128,19 @@ class RobotMenu:
                 self.logger.info('Found Right Command 4')
                 cmdBuffer.append(Right(self.movement))
                 print 'right'
+                self.dance.nod()
+                continue
+
+            # Hokie Left
+            if(nextCommand == 'hokieLeft'):
+                self.logger.info('Found Hokie Left')
+                self.dance.leftHokiePokie()
+                continue
+
+            # Hokie Right
+            if(nextCommand == 'hokieRight'):
+                self.logger.info('Found Hokie Right')
+                self.dance.rightHokiePokie()
                 continue
 
             self.logger.info('No Match found')

@@ -4,14 +4,15 @@ import zbarlight
 import sys
 
 class QRCodeReader:
-    def __init__(self, webcam):
+    def __init__(self, webcam, logger):
         '''
         Constructor
         :return:
         '''
         self.webcam = webcam
         self.webcam.set(10,0.01)
-
+        self.logger = logger
+        self.lastCodeRead = None
 
 
     def lookForCode(self):
@@ -40,6 +41,12 @@ class QRCodeReader:
         codes = zbarlight.scan_codes('qrcode', image)
             
         if codes != None:
-            return codes
+            if(codes[0] != self.lastCodeRead):
+                self.lastCodeRead = codes[0]
+                self.logger.Info('Found Code' + codes[0])
+                return codes[0]
+            else:
+                return None
 
+        self.lastCodeRead = None
         return None

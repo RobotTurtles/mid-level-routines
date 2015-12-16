@@ -7,6 +7,7 @@ from Movement import Movement
 from FaceRecognition import FaceRecognition
 from QRCodeReader import QRCodeReader
 from RobotMenu import RobotMenu
+from DanceRoutines import DanceRoutines
 
 import time
 import logging
@@ -35,7 +36,8 @@ webcam = cv2.VideoCapture(0)
 
 m = Movement(logger)
 f = FaceRecognition(logger, webcam)
-qr = QRCodeReader(webcam)
+qr = QRCodeReader(webcam, logger)
+danceRoutines = DanceRoutines(m,logger)
 menu = RobotMenu(logger, m,qr)
 
 center = 320
