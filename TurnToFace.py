@@ -8,6 +8,8 @@ from FaceRecognition import FaceRecognition
 from QRCodeReader import QRCodeReader
 from RobotMenu import RobotMenu
 from DanceRoutines import DanceRoutines
+from BallTracking import BallTracking
+from Follow import Follow
 
 import time
 import logging
@@ -36,66 +38,14 @@ webcam = cv2.VideoCapture(0)
 
 m = Movement(logger)
 f = FaceRecognition(logger, webcam)
+ball = BallTracking(logger, webcam)
 qr = QRCodeReader(webcam, logger)
 danceRoutines = DanceRoutines(m,logger)
 menu = RobotMenu(logger, m,qr)
-
-center = 320
-turnThreshold = 5
-
-moveThreshold = 10
-targetWidth = 160
-
-
-def moveToFace():
-    while (True):
-        qrCode = qr.lookForCode()
-
-        if(qrCode != None):
-            return qrCode
-
-        faceLocation = f.FindFace()
-
-        if (faceLocation[2] == 0):
-            faceLocation[2] = targetWidth
-
-        if (faceLocation[0] != 0 and faceLocation[1] != 0):
-            width = faceLocation[2]
-            delta = faceLocation[0] - center
-
-            logger.info("Face Delta from center is:" + str(delta))
-
-            # turn left
-            if (delta > turnThreshold + (width / 2)):
-                m.turnDegrees(10)
-
-                # turn right
-            if (delta < -turnThreshold - (width / 2)):
-                m.turnDegrees(-10)
-
-            # target is within turnThreshold, move closer/farther
-            if (delta <= (turnThreshold + (width / 2)) and delta >= (-turnThreshold - (width / 2))):
-
-                logger.info('Movement Width is:' + str(width))
-
-                logger.info("Inside Turn Threshold")
-                m.turnSpeed(0)
-
-                if (width < targetWidth - moveThreshold):
-                    logger.info("Moving Forward")
-                    m.moveCM(8)
-
-                if (width > targetWidth + moveThreshold):
-                    logger.info("Moving Backward")
-                    m.moveCM(-8)
-
-                if (width > targetWidth - moveThreshold and width < targetWidth + moveThreshold):
-                    logger.info("Staying Still")
-                    m.moveCM(0)
-
+followRoutine = Follow(logger, qr, m)
 
 while(True):
-    qrCode = moveToFace()
+    qrCode = followRoutine.moveToTarget(ball.ballCenter('green'))
     time.sleep(5)
     print str(qrCode) 
     menu.execute()

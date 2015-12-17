@@ -27,3 +27,14 @@ m = Movement(logger)
 r = RobotMenu(logger, m)
 
 r.execute()
+
+from Movement import Movement
+from DanceRoutines import  DanceRoutines
+import logging
+
+logging.basicConfig(filename='example.log', filemode='w', level=logging.DEBUG)
+logger = logging.getLogger('basic')
+
+
+m = Movement('test')
+d = DanceRoutines(m, logger)

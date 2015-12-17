@@ -18,6 +18,13 @@ class FaceRecognition:
         self.Cface = [0, 0, 0]
 
     def FindFace(self, filename='lastFaceFound.jpg', capturePath='captures', missedPath='misses'):
+        '''
+        Finds a face in the current video frame
+        :param filename:
+        :param capturePath:
+        :param missedPath:
+        :return:
+        '''
         self.Cface = [0, 0, 0]
 
         moreFramesToRead = True
