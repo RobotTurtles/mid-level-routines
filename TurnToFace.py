@@ -47,6 +47,7 @@ menu = RobotMenu(logger, m,qr,danceRoutines, f, ball, followRoutine)
 while(True):
     qrCode = followRoutine.moveToTarget(ball.ballCenter)
     time.sleep(5)
-    print str(qrCode) 
-    menu.execute()
+    print str(qrCode)
+    logger.info(qrCode)
+    danceRoutines.executeDance(qrCode)
 			
