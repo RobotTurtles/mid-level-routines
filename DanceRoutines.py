@@ -10,22 +10,22 @@ class DanceRoutines:
         self.m = movement
         self.logger = logger
         self.turnAboutDegrees = 360
-        self.hokiePokieTurnDistance = 200
-        self.hokiePokieMoveDistance = 100
+        self.hokiePokieTurnDistance = 100
+        self.hokiePokieMoveDistance = 20
         self.nodDistance = 30
         self.shakeDistance = 30
         self.logger.info("Initialized Dance Routines")
 
 
-    def dances(self, com):
+    def dances(self, functionToCall):
         return {
-            'rightHokiepokie':self.rightHokiePokie,
-            'leftHokiepokie':self.leftHokiePokie,
+            'rightHokiePokie':self.rightHokiePokie,
+            'leftHockeyPokie':self.leftHokiePokie,
             'nod':self.nod,
             'shakeNo':self.shakeNo,
             'spinRight':self.spinRight,
             'spinLeft':self.spinLeft,
-        }[com]
+        }[functionToCall]
 
     def spinRight(self):
         self.logger.info("DanceRoutines: Spin Right")
@@ -89,31 +89,19 @@ class DanceRoutines:
 
     def executeDance(self, danceMoves):
         '''
-        Must be a series of commands in the form of <motion> <value>
-        Example Commands that can be used are:
-            moveCM 20
-            moveCM -20
-            turnDegrees 20
-            turnDegrees -20
-            left 20
-            right 20
+        Executes stored danced routines
         :param danceMoves:
         :return:
         '''
-        my_splitter = shlex.shlex(danceMoves)
-        my_splitter.whitespace += ','
-        my_splitter.whitespace_split = True
+        print("Entering Dance Execute using QRCode: "+danceMoves)
 
-        print list(my_splitter)
-        self.logger.info(list(my_splitter));
+        self.logger.info("running dance moves: "+danceMoves);
 
+        function = self.dances(danceMoves)
 
-        for command in my_splitter:
-            print str(command)
-            details = command.split()
+        print str(function)
 
-            # Execute Command
-            self.dances(details[0])()
+        function()
 
 
 
