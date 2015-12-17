@@ -10,15 +10,16 @@ class QRCodeReader:
         :return:
         '''
         self.webcam = webcam
-        self.webcam.set(10,0.01)
         self.logger = logger
         self.lastCodeRead = None
+        self.count = 0
 
 
     def lookForCode(self):
         '''
         :return: empty string if nothing found, value of qr code if found
         '''
+        self.webcam.set(10,0.01)
         moreFramesToRead = True
 
         # Clear any frames in the buffer
@@ -32,6 +33,7 @@ class QRCodeReader:
         try:
             img
         except NameError:
+            print 'Unable to find image'
             return None
 
         filename = '/tmp/lastQRImage.jpg'
@@ -45,7 +47,11 @@ class QRCodeReader:
                 self.lastCodeRead = codes[0]
                 return codes[0]
             else:
+                self.count = self.count + 1
                 return None
 
-        self.lastCodeRead = None
+        if self.count > 100:
+            self.count = 0
+            self.lastCodeRead = None
+        self.count = self.count + 1
         return None

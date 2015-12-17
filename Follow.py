@@ -24,6 +24,11 @@ class Follow:
 
             targetLocation = targetFunction()
 
+            if(targetLocation == None):
+		print 'No Ball Found'
+                continue
+
+            print str(targetLocation)
             if (targetLocation[2] == 0):
                 targetLocation[2] = self.targetWidth
 

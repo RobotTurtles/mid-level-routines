@@ -9,7 +9,7 @@ from QRCodeReader import QRCodeReader
 
 class RobotMenu:
 
-    def __init__(self, logger, movement,qrCodeReader, danceRoutines):
+    def __init__(self, logger, movement,qrCodeReader, danceRoutines, ballTracking, faceTracking, follow):
         self.logger = logger
         self.savedCommands = list()
         self.capturePath='captures'
@@ -17,6 +17,9 @@ class RobotMenu:
         self.movement = movement
         self.qr = qrCodeReader
         self.dance = danceRoutines
+        self.ball = ballTracking
+        self.face = faceTracking
+        self.follow = follow
 
     def execute(self):
 
@@ -28,16 +31,21 @@ class RobotMenu:
 
         while(True):
 
-            qrCodes = self.qr.lookForCode()
+            qrCode = self.qr.lookForCode()
 
-            if(qrCodes == None):
+            if(qrCode == None):
                 continue
 
-            time.sleep(5)
-            mode = qrCodes[0]
+            mode = qrCode
             
-            print 'Mode: '+str(mode) 
-            # Find Face
+            # Chase Face
+            if(mode == 'findface'):
+                self.logger.info('Executing Find Face')
+                print 'Find Face'
+                self.follow.moveToTarget(self.face.FindFace())
+                continue
+
+            # Chase Ball
             if(mode == 'findface'):
                 self.logger.info('Executing Find Face')
                 print 'Find Face'

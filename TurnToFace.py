@@ -41,11 +41,11 @@ f = FaceRecognition(logger, webcam)
 ball = BallTracking(logger, webcam)
 qr = QRCodeReader(webcam, logger)
 danceRoutines = DanceRoutines(m,logger)
-menu = RobotMenu(logger, m,qr)
 followRoutine = Follow(logger, qr, m)
+menu = RobotMenu(logger, m,qr,danceRoutines, f, ball, followRoutine)
 
 while(True):
-    qrCode = followRoutine.moveToTarget(ball.ballCenter('green'))
+    qrCode = followRoutine.moveToTarget(ball.ballCenter)
     time.sleep(5)
     print str(qrCode) 
     menu.execute()

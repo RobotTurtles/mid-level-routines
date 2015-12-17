@@ -14,7 +14,7 @@ class BallTracking:
         '''
 
         # HSV Color Space
-        self.GREEN_LOWER = (29, 86, 6)
+        self.GREEN_LOWER = (29, 86, 16)
         self.GREEN_UPPER = (64, 255, 255)
 
         self.cam = camera
@@ -24,13 +24,16 @@ class BallTracking:
             'green': {self.GREEN_LOWER, self.GREEN_UPPER}
         }[color]
 
-    def ballCenter(self, targetColor):
+    def ballCenter(self, targetColor='green'):
+
         (grabbed, frame) = self.cam.read()
 
         if not grabbed:
             return
 
-        [lower, upper] = self.colorLimits(targetColor)
+        cv2.imwrite('lastImage.jpg', frame)
+
+        [upper,lower] = self.colorLimits(targetColor)
 
         # resize the frame, blur it, and convert it to the HSV
         # color space
@@ -59,14 +62,19 @@ class BallTracking:
             c = max(cnts, key=cv2.contourArea)
             ((x, y), radius) = cv2.minEnclosingCircle(c)
             M = cv2.moments(c)
-            center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]), int(radius*2))
+            center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
 
             # only proceed if the radius meets a minimum size
             if radius > 10:
                 # draw the circle and centroid on the frame,
                 # then update the list of tracked points
-                cv2.circle(frame, (int(x), int(y)), int(radius),
-                    (0, 255, 255), 2)
+                cv2.circle(frame, (int(x), int(y)), int(radius), (0, 255, 255), 2)
                 cv2.circle(frame, center, 5, (0, 0, 255), -1)
+                pass
 
-        return center
+        cv2.imwrite('lastSeenImage.jpg', frame)
+
+        if(center == None):
+            return None
+
+        return (int(center[0]), int(center[1]), int(radius*2))
