@@ -72,11 +72,11 @@ class DanceRoutines:
         turnDistance = self.hokiePokieTurnDistance
         moveDistance = self.hokiePokieMoveDistance
 
-        # Left Hand In
-        self.m.turnLeftArm(turnDistance)
+        # Right Hand In
+        self.m.turnRightArm(turnDistance)
 
         # Left Hand Out
-        self.m.turnLeftArm(-turnDistance)
+        self.m.turnRightArm(-turnDistance)
 
         # Do the hokie Pokie (and spin yourself about
         self.m.turnDegrees(self.turnAboutDegrees)
