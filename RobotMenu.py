@@ -1,155 +1,101 @@
-from TurtleCommands import Forward, Left, Right, Reverse
+########################################################################################################################
+# Robot Turtles
+# Copyright Alexander L Gutierrez 2015
+#
+# Released under Apache open source license
+########################################################################################################################
 
 __author__ = 'Alex'
 
-import cv2
-import datetime
-import time
-from QRCodeReader import QRCodeReader
+from subprocess import call
+from Apps.DanceMarathon import DanceMarathon
 
 class RobotMenu:
 
-    def __init__(self, logger, movement,qrCodeReader, danceRoutines, ballTracking, faceTracking, follow):
+    def __init__(self, logger, movement):
         self.logger = logger
         self.savedCommands = list()
         self.capturePath='captures'
         self.missedPath='misses'
         self.movement = movement
-        self.qr = qrCodeReader
-        self.dance = danceRoutines
-        self.ball = ballTracking
-        self.face = faceTracking
-        self.follow = follow
+        self.currentApp = 'DanceMarathon'
 
-    def execute(self):
+        # App Initialization, will be moved later
+        self.dance = DanceMarathon(self.movement, self.logger)
+        self.defaultRoutine = self.dance.processImage
 
+    def application(self, functionToCall):
+        return {
+            'DanceMarathon':self.dance.processImage
+        }[functionToCall]
 
-        self.logger.info('Getting Menu Option:')
-        print 'Entering Menu'
-        print 'Do a little dance'
-        self.dance.spinRight()
+    def runMethod(self, value, args):
+        keyWord = str(value)
 
-        while(True):
+        if(keyWord == self.currentApp):
+            self.currentAppMethod(args)
+            return
 
-            qrCode = self.qr.lookForCode()
+        method_name = 'visit_' + keyWord
+        method = getattr(self, method_name)
 
-            if(qrCode == None):
-                continue
-
-            mode = qrCode
-            
-            # Chase Face
-            if(mode == 'findface'):
-                self.logger.info('Executing Find Face')
-                print 'Find Face'
-                self.follow.moveToTarget(self.face.FindFace())
-                continue
-
-            # Chase Ball
-            if(mode == 'findface'):
-                self.logger.info('Executing Find Face')
-                print 'Find Face'
-                return
-
-            # Execute Stored Program
-            if(mode == 'execute'):
-                self.logger.info('Executing Stored Program')
-                print 'Execute'
-                self.dance.nod()
-                self.logger.info('Total Steps: '+ str(len(self.savedCommands)))
-                for command in self.savedCommands:
-                    self.logger.info('Executing: '+command.name)
-                    command.execute()
-                self.logger.info('Execution Complete')
-                continue
-
-            # Save a new Program
-            if(mode == 'save'):
-                self.logger.info('Saving a new Program')
-                print 'save'
-                self.dance.spinLeft()
-                self.addCommands()
-                continue
-
-            # No menu found, report QR code found
-            self.logger.info('Found '+mode)
-            print 'Found ' + str(mode)
+        try:
+            method(args)
+            # If Default System Function
+        except AttributeError:
+            targetAppExecutable = self.application(keyWord)
+            self.currentApp = keyWord
+            self.defaultRoutine = targetAppExecutable
+            return targetAppExecutable
 
 
+    def visit_runConnectToNetwork(self, args):
+        networkDetails = args.split()
+        networkName = str(networkDetails[0])
+        networkProtocol = str(networkDetails[1])
+        networkPassword = str(networkDetails[2])
 
-    def addCommands(self):
-        self.logger.info('adding commands')
+        print 'Connecting to Network:'+ networkName
+        print 'Protocol: ' + networkProtocol + ' Password: ' + networkPassword
 
-        cmdBuffer = list()
+        wicd_string = '-y -n '+networkName + ' '
 
-        while(True):
-            filename = self.capturePath + '/' + datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S.jpg")
+        pass
 
-            qrCodes = self.qr.lookForCode()
+    def visit_updateCode(self, args):
+        print 'Updating Code'
+        pass
 
-            if(qrCodes == None):
-                continue
+    def visit_updatePackages(self, args):
+        print 'Updating Packages'
+        pass
 
-            nextCommand = qrCodes[0]
+    def process(self, qrCode_string):
+        '''
+        Process a specific QR Code
+        :param qrCode_string:
+        :return: New Default Behavior (if applicable
+        '''
+        returnVal = None
 
-            if(nextCommand == 'save'):
-                self.logger.info('Found Save Command 0, exiting')
-                self.savedCommands = cmdBuffer
-                print 'save'
-                self.dance.nod()
-                return
+        if(qrCode_string == None):
+            return None
 
-            # Abort this save process
-            if(nextCommand == 'abort'):
-                self.logger.info('Found Abort Command 5, exiting')
-                print 'abort'
-                cmdBuffer = None
-                self.dance.shakeNo()
-                return
+        # parse qrcode w/ arguments
+        commandList = qrCode_string.split(':')
 
-            # Forward
-            if(nextCommand == 'forward'):
-                self.logger.info('Found Forward Command 1')
-                cmdBuffer.append(Forward(self.movement))
-                print 'forward'
-                self.dance.nod()
-                continue
+        if(commandList == None or len(commandList) == 0):
+            return None
+        option = commandList[0]
 
-            # Reverse
-            if(nextCommand == 'reverse'):
-                self.logger.info('Found Reverse Command 2')
-                cmdBuffer.append(Reverse(self.movement))
-                print 'reverse'
-                self.dance.nod()
-                continue
+        if(len(commandList) == 2):
+            arguments = commandList[1]
+        else:
+            arguments = None
 
-            # Left
-            if(nextCommand == 'left'):
-                self.logger.info('Found Left Command 3')
-                cmdBuffer.append(Left(self.movement))
-                print 'left'
-                self.dance.nod()
-                continue
+        # See if qrCode is part of known options
+        self.runMethod(option, arguments)
 
-            # Right
-            if(nextCommand == 'right'):
-                self.logger.info('Found Right Command 4')
-                cmdBuffer.append(Right(self.movement))
-                print 'right'
-                self.dance.nod()
-                continue
+        # process QR Code
 
-            # Hokie Left
-            if(nextCommand == 'hokieLeft'):
-                self.logger.info('Found Hokie Left')
-                self.dance.leftHokiePokie()
-                continue
-
-            # Hokie Right
-            if(nextCommand == 'hokieRight'):
-                self.logger.info('Found Hokie Right')
-                self.dance.rightHokiePokie()
-                continue
-
-            self.logger.info('No Match found')
-            print 'No match found, command: ' + nextCommand
+        return returnVal

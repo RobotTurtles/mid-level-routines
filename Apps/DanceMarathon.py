@@ -1,7 +1,13 @@
+########################################################################################################################
+# Robot Turtles
+# Copyright Alexander L Gutierrez 2015
+#
+# Released under Apache open source license
+########################################################################################################################
 from Movement import Movement
 import shlex
 
-class DanceRoutines:
+class DanceMarathon:
     '''
     Class for various Dance Routines
     '''
@@ -16,6 +22,9 @@ class DanceRoutines:
         self.shakeDistance = 30
         self.logger.info("Initialized Dance Routines")
 
+    def processImage(self, img):
+        print 'NoOp for process Image in Dance Marathon'
+        pass
 
     def dances(self, functionToCall):
         return {
@@ -75,7 +84,7 @@ class DanceRoutines:
         # Right Hand In
         self.m.turnRightArm(turnDistance)
 
-        # Left Hand Out
+        # Right Hand Out
         self.m.turnRightArm(-turnDistance)
 
         # Do the hokie Pokie (and spin yourself about

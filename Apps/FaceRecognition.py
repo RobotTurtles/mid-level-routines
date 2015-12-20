@@ -1,6 +1,9 @@
+########################################################################################################################
+# Robot Turtles
+# Copyright Alexander L Gutierrez 2015
 #
-# Class for Facial Recognition
-#
+# Released under Apache open source license
+########################################################################################################################
 import datetime
 
 import cv2
