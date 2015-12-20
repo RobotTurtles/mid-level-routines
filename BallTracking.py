@@ -1,4 +1,9 @@
-# import the necessary packages
+########################################################################################################################
+# Robot Turtles
+# Copyright Alexander L Gutierrez 2015
+#
+# Released under Apache open source license
+########################################################################################################################
 from collections import deque
 import numpy as np
 import argparse

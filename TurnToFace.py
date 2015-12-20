@@ -1,5 +1,10 @@
-################
-# TurnToFace.py
+########################################################################################################################
+# Robot Turtles
+# Copyright Alexander L Gutierrez 2015
+#
+# Released under Apache open source license
+#
+#  TurnToFace.py
 # Has robot automatically turn to, and move towards/away from the last face it sees
 ####################
 
