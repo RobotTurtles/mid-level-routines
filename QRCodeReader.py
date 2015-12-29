@@ -20,6 +20,22 @@ class QRCodeReader:
         self.lastCodeRead = None
         self.count = 0
 
+    def readImage(img):
+        try:
+            img
+        except NameError:
+            print 'Unable to find image'
+            return None
+
+        filename = '/tmp/lastQRImage.jpg'
+        cv2.imwrite(filename, img)
+        image = Image.open(filename)
+        image.load()
+        codes = zbarlight.scan_codes('qrcode', image)
+
+        if codes != None:
+            return codes[0]
+        return None
 
     def lookForCode(self):
         '''
@@ -36,22 +52,12 @@ class QRCodeReader:
             img = new_img
             moreFramesToRead = False
 
-        try:
-            img
-        except NameError:
-            print 'Unable to find image'
-            return None
+        result = QRCodeReader.readImage(img)
 
-        filename = '/tmp/lastQRImage.jpg'
-        cv2.imwrite(filename, img)
-        image = Image.open(filename)
-        image.load()
-        codes = zbarlight.scan_codes('qrcode', image)
-            
-        if codes != None:
-            if(codes[0] != self.lastCodeRead):
-                self.lastCodeRead = codes[0]
-                return codes[0]
+        if result != None:
+            if(result != self.lastCodeRead):
+                self.lastCodeRead = result
+                return result
             else:
                 self.count = self.count + 1
                 return None

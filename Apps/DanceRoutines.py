@@ -81,7 +81,7 @@ class DanceRoutines:
         # Right Hand In
         self.m.turnRightArm(turnDistance)
 
-        # Left Hand Out
+        # Right Hand Out
         self.m.turnRightArm(-turnDistance)
 
         # Do the hokie Pokie (and spin yourself about

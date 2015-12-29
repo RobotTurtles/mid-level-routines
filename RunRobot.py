@@ -1,4 +1,12 @@
-# Simple Robot Program
+###############################################################################
+# Robot Turtles
+# Copyright Alexander L Gutierrez 2015
+#
+# Description:
+#   This is the "start" file for all robot action. All other programs will be
+# called from programs.
+###############################################################################
+
 import logging
 import os
 
@@ -23,18 +31,9 @@ logger.addHandler(handler)
 
 logger.info('Started Run Robot')
 
+# Instantiating Movement out of main loop in case we make it asynchronous in the future
 m = Movement(logger)
+
+# Main Action
 r = RobotMenu(logger, m)
-
 r.execute()
-
-from Movement import Movement
-from DanceRoutines import  DanceRoutines
-import logging
-
-logging.basicConfig(filename='example.log', filemode='w', level=logging.DEBUG)
-logger = logging.getLogger('basic')
-
-
-m = Movement('test')
-d = DanceRoutines(m, logger)
