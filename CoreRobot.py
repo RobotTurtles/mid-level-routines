@@ -27,7 +27,7 @@ class CoreRobot:
         self.webcam.set(10,0.01) # Set brightness
 
         self.RobotMenu = RobotMenu(logger, movement)
-        self.defaultRoutine = self.RobotMenu.defaultRoutine
+        self.defaultRoutine = self.RobotMenu.defaultRoutine()
         self.lastQRCode = None
 
     def execute(self):
@@ -52,7 +52,7 @@ class CoreRobot:
                 counter = 0
                 self.lastQRCode = qrCode
                 self.logger.info('Detected QR Code: '+str(qrCode))
-                
+
                 try:
                     newDefault = self.RobotMenu.process(qrCode)
                     if(newDefault != None):

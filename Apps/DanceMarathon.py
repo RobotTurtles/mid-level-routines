@@ -7,7 +7,7 @@
 from Movement import Movement
 import shlex
 
-class DanceRoutines:
+class DanceMarathon:
     '''
     Class for various Dance Routines
     '''
@@ -22,6 +22,9 @@ class DanceRoutines:
         self.shakeDistance = 30
         self.logger.info("Initialized Dance Routines")
 
+    def processImage(self, img):
+        print 'NoOp for process Image in Dance Marathon'
+        pass
 
     def dances(self, functionToCall):
         return {
