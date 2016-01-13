@@ -51,12 +51,14 @@ class RobotMenu:
 
     def visit_runConnectToNetwork(self, args):
         networkDetails = args.split()
-        networkName = networkDetails[0]
-        networkProtocol = networkDetails[1]
-        networkPassword = networkDetails[2]
+        networkName = str(networkDetails[0])
+        networkProtocol = str(networkDetails[1])
+        networkPassword = str(networkDetails[2])
 
-        print 'Connecting to Network:'+str(networkName)
-        print 'Protocol: ' + str(networkProtocol) + ' Password: ' + str(networkPassword)
+        print 'Connecting to Network:'+ networkName
+        print 'Protocol: ' + networkProtocol + ' Password: ' + networkPassword
+
+        wicd_string = '-y -n '+networkName + ' '
 
         pass
 
