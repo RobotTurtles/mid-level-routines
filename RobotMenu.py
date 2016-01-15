@@ -9,6 +9,7 @@ __author__ = 'Alex'
 
 from subprocess import call
 from Apps.DanceMarathon import DanceMarathon
+from NetworkManager import NetworkManager
 
 class RobotMenu:
 
@@ -58,8 +59,7 @@ class RobotMenu:
         print 'Connecting to Network:'+ networkName
         print 'Protocol: ' + networkProtocol + ' Password: ' + networkPassword
 
-        wicd_string = '-y -n '+networkName + ' '
-
+        NetworkManager().find_and_connect('default',networkName,networkPassword)
         pass
 
     def visit_updateCode(self, args):
