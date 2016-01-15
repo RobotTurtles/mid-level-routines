@@ -61,7 +61,7 @@ class NetworkManager:
         if(encryptionMethod != None):
             print 'Encryption: ' + str(encryptionMethod)
 
-        self.connect(self, network_num, encryptionMethod, networkPassword)
+        self.connect(network_num, encryptionMethod, networkPassword)
 
         # Once Found, Configure that specific network
         pass
@@ -74,10 +74,12 @@ class NetworkManager:
 
     def connect(self, network_num, encryption_type, network_password):
 
-        encType = self.getEncType(encryption_type)
+        if(encryption_type != None):
+            encType = self.getEncType(encryption_type)
 
-        print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num), '-p encType', '-s '+str(encType)]))
-        print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num), '-p key', '-s '+str(network_password)]))
+            print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num), '-p encType', '-s '+str(encType)]))
+            print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num), '-p key', '-s '+str(network_password)]))
+
         print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num), '--connect']))
 
 if(__name__ == '__main__'):
