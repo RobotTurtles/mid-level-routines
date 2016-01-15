@@ -31,6 +31,7 @@ class NetworkManager:
             network_name = available_network[3]
 
             if(network_name == networkName):
+                print 'Matched Network: '+str(network_name)
                 network_num = available_network[0]
                 network_bssid = available_network[1]
                 break
@@ -38,12 +39,12 @@ class NetworkManager:
         network_details = None
 
         if(network_num != None):
-            network_details = subprocess.check_output(['/usr/bin/wicd-cli','-y','-n network','-d'])
+            network_details = subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num),'-d'])
 
         print str(network_details)
 
         # Once Found, Configure that specific network
         pass
 
-    def main(self):
-        pass
+if(__name__ == '__main__'):
+    NetworkManager().connect('default','bananas','WPA2','mysteryspot2')
