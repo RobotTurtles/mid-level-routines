@@ -25,13 +25,8 @@ class NetworkManager:
             available_network = network.split('\t')
             print str(available_network)
 
-
             network_name = available_network[3]
-
             network_num = available_network[0]
-
-            if(network_num != '#'):
-                print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num),'-d']))
 
             if(network_name == networkName):
                 print 'Matched Network: '+str(network_name)
@@ -83,4 +78,4 @@ class NetworkManager:
         print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num), '--connect']))
 
 if(__name__ == '__main__'):
-    NetworkManager().find_and_connect('default','bananas','mysteryspot2')
+    NetworkManager().find_and_connect('default','dd-wrt','hello1')
