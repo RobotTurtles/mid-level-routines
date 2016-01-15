@@ -29,7 +29,9 @@ class NetworkManager:
             network_name = available_network[3]
 
             network_num = available_network[0]
-            print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num),'-d']))
+
+            if(network_num != '#'):
+                print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num),'-d']))
 
             if(network_name == networkName):
                 print 'Matched Network: '+str(network_name)
