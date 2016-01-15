@@ -53,6 +53,8 @@ class NetworkManager:
             if(properties['Encryption'] == 'On'):
                 encryptionMethod = properties['Encryption Method']
 
+        print(properties)
+
         if(encryptionMethod != None):
             print 'Encryption: ' + str(encryptionMethod)
 
@@ -63,17 +65,17 @@ class NetworkManager:
 
     def getEncType(self,network_type):
         return {
-            'WPA2':'wpa',
-            'WEP':'wep-hex',
+            'WPA2':{'key','wpa'},
+            'WEP':{'passphrase','wep-passphrase'},
         }[network_type]
 
     def connect(self, network_num, encryption_type, network_password):
 
         if(encryption_type != None):
-            encType = self.getEncType(encryption_type)
+            passType, encType = self.getEncType(encryption_type)
 
             print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num), '-p encType', '-s '+str(encType)]))
-            print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num), '-p key', '-s '+str(network_password)]))
+            print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num), '-p '+str(passType), '-s '+str(network_password)]))
 
         print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num), '--connect']))
 
