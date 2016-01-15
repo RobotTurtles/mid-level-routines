@@ -38,8 +38,23 @@ class NetworkManager:
 
         network_details = None
 
-        if(network_num != None):
-            network_details = subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num),'-d'])
+        if(network_num == None):
+            raise ValueError('Network ' + str(networkName) + ' not found')
+
+        network_details = subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num),'-d']).split('\n')
+
+        properties = None
+        for detail in network_details:
+            propertyPair = detail.split(':')
+            properties[propertyPair[0]] = propertyPair[1]
+
+        encryptionMethod = None
+        if(properties.has_key('Encryption')):
+            if(properties['Encryption'] == 'On'):
+                encryptionMethod = properties['Encryption Method']
+
+        if(encryptionMethod != None):
+            print 'Encryption: ' + str(encryptionMethod)
 
         print str(network_details)
 
