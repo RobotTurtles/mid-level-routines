@@ -15,10 +15,8 @@ class NetworkManager:
     def __init__(self):
         pass
 
-    def connect(self, saveID, networkName, networkType, networkPassword):
+    def find_and_connect(self, saveID, networkName, networkPassword):
         available_networks = subprocess.check_output(['/usr/bin/wicd-cli','-y','-S', '-l']).split('\n')
-
-        network_count = len(available_networks)
 
         network_num = None
 
@@ -29,6 +27,9 @@ class NetworkManager:
 
 
             network_name = available_network[3]
+
+            network_num = available_network[0]
+            print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num),'-d']))
 
             if(network_name == networkName):
                 print 'Matched Network: '+str(network_name)
@@ -58,10 +59,24 @@ class NetworkManager:
         if(encryptionMethod != None):
             print 'Encryption: ' + str(encryptionMethod)
 
-        print str(network_details)
+        self.connect(self, network_num, encryptionMethod, networkPassword)
 
         # Once Found, Configure that specific network
         pass
 
+    def getProperties(self,network_type):
+        return {
+            'WPA2':'wpa',
+            'WEP':'wep-hex',
+        }[network_type]
+
+    def connect(self, network_num, encryption_type, network_password):
+
+        encType = self.getEncType(encryption_type)
+
+        print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num), '-p encType', '-s '+str(encType)]))
+        print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num), '-p key', '-s '+str(network_password)]))
+        print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num), '--connect']))
+
 if(__name__ == '__main__'):
-    NetworkManager().connect('default','bananas','WPA2','mysteryspot2')
+    NetworkManager().find_and_connect('default','bananas','mysteryspot2')
