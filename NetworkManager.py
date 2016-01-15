@@ -64,6 +64,7 @@ class NetworkManager:
         pass
 
     def getEncType(self,network_type):
+        print 'network type: '+str(network_type)
         return {
             'WPA2':{'key','wpa'},
             'WEP':{'passphrase','wep-passphrase'},
@@ -73,6 +74,8 @@ class NetworkManager:
 
         if(encryption_type != None):
             passType, encType = self.getEncType(encryption_type)
+
+            print 'PassType: '+str(passType) + ' encType: '+encType
 
             print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num), '-p encType', '-s '+str(encType)]))
             print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num), '-p '+str(passType), '-s '+str(network_password)]))
