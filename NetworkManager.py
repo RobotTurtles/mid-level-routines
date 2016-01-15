@@ -66,7 +66,7 @@ class NetworkManager:
         # Once Found, Configure that specific network
         pass
 
-    def getProperties(self,network_type):
+    def getEncType(self,network_type):
         return {
             'WPA2':'wpa',
             'WEP':'wep-hex',
