@@ -46,7 +46,8 @@ class NetworkManager:
         properties = None
         for detail in network_details:
             propertyPair = detail.split(':')
-            properties[propertyPair[0]] = propertyPair[1]
+            print(str(propertyPair))
+            properties[str(propertyPair[0])] = propertyPair[1]
 
         encryptionMethod = None
         if(properties.has_key('Encryption')):
