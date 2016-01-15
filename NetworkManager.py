@@ -73,7 +73,7 @@ class NetworkManager:
     def connect(self, network_num, encryption_type, network_password):
 
         if(encryption_type != None):
-            passType, encType = self.getEncType(encryption_type)
+            encType, passType = self.getEncType(encryption_type)
 
             print 'PassType: '+str(passType) + ' encType: '+encType
 
