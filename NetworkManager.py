@@ -43,7 +43,6 @@ class NetworkManager:
 
         network_details = subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num),'-d']).split('\n')
 
-        properties = None
         for detail in network_details:
             propertyPair = detail.split(':')
             print(str(propertyPair))
