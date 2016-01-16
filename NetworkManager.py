@@ -66,12 +66,12 @@ class NetworkManager:
     def getEncType(self,network_type):
         print 'network type: '+str(network_type)
         return {
-            'WPA2':{'key','wpa'},
+            'WPA2':{'apsk','wpa-psk'},
             'WEP':{'passphrase','wep-passphrase'},
         }[network_type]
 
     def connect(self, network_num, encryption_type, network_password):
-
+        print 'Connecting to: '+str(network_num)+', encryption type: '+str(encryption_type)+', password:'+str(network_password) 
         if(encryption_type != None):
             encType, passType = self.getEncType(encryption_type)
 
@@ -83,4 +83,4 @@ class NetworkManager:
         print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num), '--connect']))
 
 if(__name__ == '__main__'):
-    NetworkManager().find_and_connect('default','dd-wrt','hello1')
+    NetworkManager().find_and_connect('default','Demos','mysteryspot2')
