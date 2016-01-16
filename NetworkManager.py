@@ -34,6 +34,8 @@ class NetworkManager:
                 network_bssid = available_network[1]
                 break
 
+        network_details = None
+
         if(network_num == None):
             raise ValueError('Network ' + str(networkName) + ' not found')
 
@@ -56,9 +58,10 @@ class NetworkManager:
         if(encryptionMethod != None):
             print 'Encryption: ' + str(encryptionMethod)
 
-        result = self.connect(network_num, encryptionMethod, networkPassword)
+        self.connect(network_num, encryptionMethod, networkPassword)
 
-        return result
+        # Once Found, Configure that specific network
+        pass
 
     def getEncType(self,network_type):
         '''
@@ -68,7 +71,7 @@ class NetworkManager:
         '''
         print 'network type: '+str(network_type)
         return {
-            'WPA2':{'key','wpa'},
+            'WPA2':{'apsk','wpa-psk'},
             'WEP':{'passphrase','wep-passphrase'},
         }[network_type]
 
