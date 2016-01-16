@@ -36,6 +36,33 @@ class DanceMarathon:
             'spinLeft':self.spinLeft,
         }[functionToCall]
 
+    def happyDance(self):
+        self.logger.info("DanceRoutines: Happy Dance")
+        self.m.turnDegrees(self.shakeDistance)
+        self.m.turnDegrees(-self.shakeDistance)
+        self.m.turnDegrees(self.shakeDistance)
+        self.m.turnDegrees(-self.shakeDistance)
+
+        # Wag Left Arm
+        self.m.turnLeftArm(80)
+        self.m.turnLeftArm(-80)
+        self.m.turnLeftArm(80)
+        self.m.turnLeftArm(-80)
+
+    def sadDance(self):
+        self.logger.info("DanceRoutines: Sad Dance")
+        self.m.moveCM(self.nodDistance)
+        self.m.moveCM(-self.nodDistance)
+        self.m.moveCM(self.nodDistance)
+        self.m.moveCM(-self.nodDistance)
+
+        # Wag Left Arm
+        self.m.turnRightArm(80)
+        self.m.turnRightArm(-80)
+        self.m.turnRightArm(80)
+        self.m.turnRightArm(-80)
+
+
     def spinRight(self):
         self.logger.info("DanceRoutines: Spin Right")
         self.m.turnDegrees(self.turnAboutDegrees)

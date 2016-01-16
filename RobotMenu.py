@@ -10,6 +10,7 @@ __author__ = 'Alex'
 from subprocess import call
 from Apps.DanceMarathon import DanceMarathon
 from NetworkManager import NetworkManager
+from UpdateManager import UpdateManager
 
 class RobotMenu:
 
@@ -59,16 +60,22 @@ class RobotMenu:
         print 'Connecting to Network:'+ networkName
         print 'Protocol: ' + networkProtocol + ' Password: ' + networkPassword
 
-        NetworkManager().find_and_connect('default',networkName,networkPassword)
-        pass
+        result = NetworkManager().find_and_connect('default',networkName,networkPassword)
+
+        if(result == 1):
+            self.dance.happyDance()
+        else:
+            self.dance.sadDance()
+
 
     def visit_updateCode(self, args):
         print 'Updating Code'
-        pass
+        UpdateManager().updateMidLevelRoutines()
 
     def visit_updatePackages(self, args):
         print 'Updating Packages'
-        pass
+        UpdateManager().updatePackages()
+        UpdateManager().installPackages(args)
 
     def process(self, qrCode_string):
         '''
@@ -86,6 +93,7 @@ class RobotMenu:
 
         if(commandList == None or len(commandList) == 0):
             return None
+
         option = commandList[0]
 
         if(len(commandList) == 2):
