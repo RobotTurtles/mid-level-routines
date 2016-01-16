@@ -80,7 +80,7 @@ class NetworkManager:
             print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num), '-p encType', '-s '+str(encType)]))
             print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num), '-p '+str(passType), '-s '+str(network_password)]))
 
-        print(subprocess.check_output(['sudo','/usr/bin/wicd-cli','-y','-n '+ str(network_num), '--connect']))
+        print(subprocess.check_output(['/usr/bin/wicd-cli','-y','-n '+ str(network_num), '--connect']))
 
 if(__name__ == '__main__'):
     NetworkManager().find_and_connect('default','dd-wrt','hello1')
