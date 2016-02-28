@@ -25,7 +25,31 @@ class Movement:
         self.__defaultSpeed = 80
 
         self.__degreesToMilliSecs = 5.5
-        self.__cmsToMilliSecs = 50
+        self.__cmsToMilliSecs = 25
+
+    def getRunTime(self, distance, speed):
+        '''
+        Get time in milliseconds that you need to run motor to achieve distance at desired speed
+        :param speed: Speed
+        :param distance: Distance in cm
+        :return: time in ms
+        '''
+
+        if(speed < 20):
+            return distance * 100
+
+        if(speed < 40):
+            return distance * 50
+
+        if(speed < 60):
+            return distance * 35
+
+        if(speed < 80):
+            return distance * 25
+
+        return distance * self.__cmsToMilliSecs
+
+
 
     def turnDegrees(self, distance):
         """Turn Robot left/right by distance in degrees"""
@@ -111,9 +135,13 @@ class Movement:
         self.writeToMotor(self.__leftServo, leftDir, speed)
         self.writeToMotor(self.__rightServo, rightDir, speed)
 
-    def moveCM(self, distance):
-        """Move Robot forward/backward by distance in cms"""
-        targetMilliSecs = abs(distance * self.__cmsToMilliSecs)
+    def moveCM(self, distance, speed=50):
+        """
+        Move Robot forward/backward by distance in cms
+        distance in cms
+        speed: How fast it should get there as a percentage
+        """
+        targetMilliSecs = self.getRunTime(abs(distance), speed)
         currentMilliSecs = 0
 
         if (distance < 0):
@@ -127,8 +155,8 @@ class Movement:
             time.sleep(.001)
             currentMilliSecs += 1
 
-            self.writeToMotor(self.__leftServo, leftDir, self.__defaultSpeed)
-            self.writeToMotor(self.__rightServo, rightDir, self.__defaultSpeed)
+            self.writeToMotor(self.__leftServo, leftDir, speed)
+            self.writeToMotor(self.__rightServo, rightDir, speed)
 
         self.writeToMotor(self.__leftServo, self.__leftFwdDir, 0)
         self.writeToMotor(self.__rightServo, self.__rightFwdDir, 0)
