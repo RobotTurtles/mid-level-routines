@@ -16,7 +16,7 @@ def PingServer(turtle_name, ip_address, turtle_id):
 
     response = subprocess.check_output(['/usr/bin/wget', '--quiet','--spider',sendUrl]).split('\n')
 
-if __name__ == '__main__':
+def GetTurtleInfo():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(('8.8.8.8', 0))  # connecting to a UDP address doesn't send packets
 
@@ -24,4 +24,9 @@ if __name__ == '__main__':
     ip_address = s.getsockname()[0]
     turtle_id = '3'
 
+    return turtle_name, ip_address, turtle_id
+
+if __name__ == '__main__':
+
+    turtle_name, ip_address, turtle_id = GetTurtleInfo()
     PingServer(turtle_name, ip_address, turtle_id)
