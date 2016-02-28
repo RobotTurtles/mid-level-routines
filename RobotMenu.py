@@ -11,16 +11,20 @@ from subprocess import call
 from Apps.DanceMarathon import DanceMarathon
 from NetworkManager import NetworkManager
 from UpdateManager import UpdateManager
+import Utilities.TurtleInfo
+import Utilities.ConnectToServer
+import Utilities.ConfigFileManager
 
 class RobotMenu:
 
-    def __init__(self, logger, movement):
+    def __init__(self, logger, movement, config):
         self.logger = logger
         self.savedCommands = list()
         self.capturePath='captures'
         self.missedPath='misses'
         self.movement = movement
         self.currentApp = 'DanceMarathon'
+        self.config = config
 
         # App Initialization, will be moved later
         self.dance = DanceMarathon(self.movement, self.logger)
@@ -51,22 +55,38 @@ class RobotMenu:
             return targetAppExecutable
 
 
-    def visit_runConnectToNetwork(self, args):
-        networkDetails = args.split()
-        networkName = str(networkDetails[0])
-        networkProtocol = str(networkDetails[1])
-        networkPassword = str(networkDetails[2])
+    def visit_connect(self, args):
+        networkDetails = args.split('&')
 
-        print 'Connecting to Network:'+ networkName
-        print 'Protocol: ' + networkProtocol + ' Password: ' + networkPassword
+        turtleId = str(networkDetails[0].split('=')[1])
+        networkName = str(networkDetails[1].split('=')[1])
+        networkPassword = str(networkDetails[2].split('=')[1])
+
+        self.logger.info('Connecting to Network:'+ networkName)
+        self.logger.info('Password: ' + networkPassword)
 
         result = NetworkManager().find_and_connect('default',networkName,networkPassword)
 
         if(result == 1):
+            self.logger.info('Successfully Connected!')
             self.dance.happyDance()
         else:
+            self.logger.info('Failed to Connect =(')
             self.dance.sadDance()
 
+        # Ping Home
+        turtleName = Utilities.TurtleInfo.GetTurtleName()
+        turtleIP = Utilities.TurtleInfo.GetCurrentAddress()
+
+        self.config.WriteParams(turtleName, turtleId, turtleIP)
+
+
+
+    def visit_ping(self, args):
+        turtleName, turtleIP, turtleID = self.config.ReadParams()
+
+        Utilities.ConnectToServer.PingServer(turtleName,turtleIP,turtleID)
+        pass
 
     def visit_updateCode(self, args):
         print 'Updating Code'

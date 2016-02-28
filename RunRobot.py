@@ -1,6 +1,6 @@
 ###############################################################################
 # Robot Turtles
-# Copyright Alexander L Gutierrez 2015
+# Copyright Alexander L Gutierrez 2015, 2016
 #
 # Description:
 #   This is the "start" file for all robot action. All other programs will be
@@ -10,8 +10,9 @@
 import logging
 import os
 
-from RobotMenu import RobotMenu
+from CoreRobot import CoreRobot
 from Movement import Movement
+from Utilities.ConfigFileManager import ConfigFileManager
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -31,9 +32,9 @@ logger.addHandler(handler)
 
 logger.info('Started Run Robot')
 
-# Instantiating Movement out of main loop in case we make it asynchronous in the future
-m = Movement(logger)
-
 # Main Action
-r = RobotMenu(logger, m)
+r = CoreRobot(logger, Movement(logger), ConfigFileManager(logger))
+
 r.execute()
+
+logger.info('Turtle Has stopped running')

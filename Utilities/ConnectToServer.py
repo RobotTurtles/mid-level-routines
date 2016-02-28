@@ -22,9 +22,8 @@ def GetTurtleInfo():
 
     turtle_name = socket.gethostname()
     ip_address = s.getsockname()[0]
-    turtle_id = '3'
 
-    return turtle_name, ip_address, turtle_id
+    return turtle_name, ip_address
 
 if __name__ == '__main__':
 
