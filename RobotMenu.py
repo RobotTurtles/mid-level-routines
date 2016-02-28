@@ -69,7 +69,13 @@ class RobotMenu:
         self.logger.info('Connecting to Network:'+ networkName)
         self.logger.info('Password: ' + networkPassword)
 
-        result = NetworkManager().find_and_connect('default',networkName,networkPassword)
+        print("Attempting to connect to: "+networkName+" , password: "+str(networkPassword))
+
+        try:
+            result = NetworkManager().find_and_connect('default',networkName,networkPassword)
+        except:
+            e = sys.exc_info()[0]
+            print("Error: "+ str(e))
 
         if(result == 1):
             self.logger.info('Successfully Connected!')
