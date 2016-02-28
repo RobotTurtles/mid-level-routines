@@ -43,8 +43,8 @@ class ReadQRCodeAndReport:
         turtle_name = TurtleInfo.GetTurtleName()
         ip_address = TurtleInfo.GetCurrentAddress()
 
-        self.logger('Turtle Name: '+turtle_name)
-        self.logger('Turtle IP: '+ip_address)
+        self.logger.info('Turtle Name: '+turtle_name)
+        self.logger.info('Turtle IP: '+ip_address)
 
         while(True):
             ret, img = self.webcam.read()
@@ -57,7 +57,7 @@ class ReadQRCodeAndReport:
                 if(qrCode.startswith('connect:')):
                     arguments = qrCode[8:].split('&')
                     turtle_id = arguments[0].split('=')[1]
-                    self.logger('Turtle_id:'+turtle_id)
+                    self.logger.info('Turtle_id:'+turtle_id)
                     ConnectToServer.PingServer(turtle_name, ip_address, turtle_id)
                     break
 

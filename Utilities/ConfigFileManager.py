@@ -18,7 +18,7 @@ class ConfigFileManager:
 
         self.config.read(self.configFile)
 
-        if(not ('TurtleInfo' in self.config)):
+        if not self.config.has_section('TurtleInfo'):
             self.config.add_section('TurtleInfo')
             self.config.set('TurtleInfo', 'turtle_name', 'unnamed_turtle')
             self.config.set('TurtleInfo', 'turtle_id', '-99')
