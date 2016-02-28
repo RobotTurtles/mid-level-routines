@@ -14,6 +14,7 @@ from UpdateManager import UpdateManager
 import Utilities.TurtleInfo
 import Utilities.ConnectToServer
 import Utilities.ConfigFileManager
+import sys
 
 class RobotMenu:
 
@@ -29,6 +30,7 @@ class RobotMenu:
         # App Initialization, will be moved later
         self.dance = DanceMarathon(self.movement, self.logger)
         self.defaultRoutine = self.dance.processImage
+        self.currentAppMethod = self.dance.executeDance
 
     def application(self, functionToCall):
         return {
@@ -76,6 +78,7 @@ class RobotMenu:
         except:
             e = sys.exc_info()[0]
             print("Error: "+ str(e))
+            result = 0
 
         if(result == 1):
             self.logger.info('Successfully Connected!')
