@@ -10,7 +10,10 @@ import ConfigParser
 
 class ConfigFileManager:
 
-    def __init__(self):
+    def __init__(self, logger):
+
+        self.logger = logger
+
         self.config = ConfigParser.RawConfigParser()
 
         # Writing our configuration file to 'example.cfg'
@@ -19,6 +22,7 @@ class ConfigFileManager:
         self.config.read(self.configFile)
 
         if not self.config.has_section('TurtleInfo'):
+            self.logger.info('Turtle Info Not Found')
             self.config.add_section('TurtleInfo')
             self.config.set('TurtleInfo', 'turtle_name', 'unnamed_turtle')
             self.config.set('TurtleInfo', 'turtle_id', '-99')
@@ -34,6 +38,11 @@ class ConfigFileManager:
         self.config.set('TurtleInfo', 'turtle_name', turtle_name)
         self.config.set('TurtleInfo', 'turtle_id', turtle_id)
         self.config.set('TurtleInfo', 'ip_address', local_ip_address)
+
+        self.logger.info('Writing Turtle Info:')
+        self.logger.info('   Name: '+str(turtle_name))
+        self.logger.info('     Id: '+str(turtle_id))
+        self.logger.info('IP Addr: '+str(local_ip_address))
 
         with open(self.configFile, 'wb') as configfile:
             self.config.write(configfile)

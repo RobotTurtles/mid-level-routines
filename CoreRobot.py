@@ -26,9 +26,11 @@ class CoreRobot:
         self.webcam = cv2.VideoCapture(0)
         self.webcam.set(10,0.01) # Set brightness
 
-        self.RobotMenu = RobotMenu(logger, movement)
-        self.defaultRoutine = self.RobotMenu.defaultRoutine()
+        self.RobotMenu = RobotMenu(logger, movement,config)
+        self.defaultRoutine = self.RobotMenu.defaultRoutine
         self.lastQRCode = None
+
+        self.qrCodeReader = QRCodeReader(self.webcam, logger)
 
     def execute(self):
 
@@ -38,9 +40,12 @@ class CoreRobot:
             ret, img = self.webcam.read()
 
             # get QR Code if it exists
-            qrCode = QRCodeReader.readImage(img)
+            qrCode = self.qrCodeReader.readImage(img)
+
+            print(qrCode)
 
             if(qrCode == None or qrCode == self.lastQRCode):
+                self.logger.debug('No QR Code Found')
                 self.defaultRoutine(img)
                 counter = counter + 1
 
@@ -54,6 +59,7 @@ class CoreRobot:
                 self.logger.info('Detected QR Code: '+str(qrCode))
 
                 try:
+                    print("Attempting to process QR Code")
                     newDefault = self.RobotMenu.process(qrCode)
                     if(newDefault != None):
                         self.defaultRoutine = newDefault

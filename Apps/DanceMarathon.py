@@ -23,7 +23,7 @@ class DanceMarathon:
         self.logger.info("Initialized Dance Routines")
 
     def processImage(self, img):
-        print 'NoOp for process Image in Dance Marathon'
+        #print 'NoOp for process Image in Dance Marathon'
         pass
 
     def dances(self, functionToCall):

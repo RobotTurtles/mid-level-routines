@@ -23,7 +23,7 @@ class RobotMenu:
         self.capturePath='captures'
         self.missedPath='misses'
         self.movement = movement
-        self.currentApp = 'DanceMarathon'
+        self.currentApp = 'dance'
         self.config = config
 
         # App Initialization, will be moved later
@@ -32,7 +32,7 @@ class RobotMenu:
 
     def application(self, functionToCall):
         return {
-            'DanceMarathon':self.dance.processImage
+            'dance':self.dance.processImage
         }[functionToCall]
 
     def runMethod(self, value, args):
@@ -43,12 +43,16 @@ class RobotMenu:
             return
 
         method_name = 'visit_' + keyWord
+
+        print("going to method: "+method_name)
+
         method = getattr(self, method_name)
 
         try:
             method(args)
             # If Default System Function
         except AttributeError:
+            print("Failed to find method: "+method)
             targetAppExecutable = self.application(keyWord)
             self.currentApp = keyWord
             self.defaultRoutine = targetAppExecutable
@@ -69,9 +73,11 @@ class RobotMenu:
 
         if(result == 1):
             self.logger.info('Successfully Connected!')
+            print("Successfully Connected!")
             self.dance.happyDance()
         else:
             self.logger.info('Failed to Connect =(')
+            print("Failed to connect!")
             self.dance.sadDance()
 
         # Ping Home
@@ -83,7 +89,8 @@ class RobotMenu:
 
 
     def visit_ping(self, args):
-        turtleName, turtleIP, turtleID = self.config.ReadParams()
+        print("In Visit Ping")
+        turtleName, turtleID, turtleIP = self.config.ReadParams()
 
         Utilities.ConnectToServer.PingServer(turtleName,turtleIP,turtleID)
         pass
@@ -105,6 +112,8 @@ class RobotMenu:
         '''
         returnVal = None
 
+        print("Processing: "+qrCode_string)
+
         if(qrCode_string == None):
             return None
 
@@ -112,14 +121,19 @@ class RobotMenu:
         commandList = qrCode_string.split(':')
 
         if(commandList == None or len(commandList) == 0):
+            print("No Commands Found")
             return None
 
         option = commandList[0]
 
+        print("Option is: "+str(option))
+
         if(len(commandList) == 2):
             arguments = commandList[1]
+            print('Found Arguments: '+str(arguments))
         else:
             arguments = None
+            print('Found no Arguments')
 
         # See if qrCode is part of known options
         self.runMethod(option, arguments)
