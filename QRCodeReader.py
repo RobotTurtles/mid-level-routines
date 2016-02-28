@@ -20,7 +20,7 @@ class QRCodeReader:
         self.lastCodeRead = None
         self.count = 0
 
-    def readImage(img):
+    def readImage(self, img):
         try:
             img
         except NameError:
@@ -67,3 +67,6 @@ class QRCodeReader:
             self.lastCodeRead = None
         self.count = self.count + 1
         return None
+
+if __name__ == '__main__':
+    unittest.main()

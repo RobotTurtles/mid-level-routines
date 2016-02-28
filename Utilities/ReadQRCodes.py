@@ -8,26 +8,28 @@
 ###############################################################################
 
 import cv2
+import logging
+import os
+import sys
+
+sys.path.append('/home/pi/mid-level-routines')
+
 from QRCodeReader import QRCodeReader
 from RobotMenu import RobotMenu
 __author__ = 'Alex'
 
 
-class CoreRobot:
+class ReadQRCodes:
 
-    def __init__(self, logger, movement, config):
+    def __init__(self, logger):
 
         # Input Parameters
-        self.m = movement
         self.logger = logger
-        self.config = config
 
         # Created Parameters
         self.webcam = cv2.VideoCapture(0)
         self.webcam.set(10,0.01) # Set brightness
-
-        self.RobotMenu = RobotMenu(logger, movement)
-        self.defaultRoutine = self.RobotMenu.defaultRoutine()
+        self.qrReader = QRCodeReader(self.webcam, logger)
         self.lastQRCode = None
 
     def execute(self):
@@ -38,6 +40,13 @@ class CoreRobot:
             ret, img = self.webcam.read()
 
             # get QR Code if it exists
-            qrCode = QRCodeReader.readImage(img)
+            qrCode = self.qrReader.readImage(img)
 
             print(qrCode)
+
+if __name__ == '__main__':
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
+
+    c = ReadQRCodes(logger)
+    c.execute()
