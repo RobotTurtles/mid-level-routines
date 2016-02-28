@@ -34,6 +34,7 @@ class QRCodeReader:
         codes = zbarlight.scan_codes('qrcode', image)
 
         if codes != None:
+            cv2.imwrite('/tmp/lastFoundQRImage.jpg', img)
             return codes[0]
         return None
 
