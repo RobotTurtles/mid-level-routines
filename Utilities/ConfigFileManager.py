@@ -10,14 +10,14 @@ import ConfigParser
 
 class ConfigFileManager:
 
-    def __init__(self, logger):
+    def __init__(self, logger, configFile=r"/etc/turtles/Turtle.cfg"):
 
         self.logger = logger
 
         self.config = ConfigParser.RawConfigParser()
 
         # Writing our configuration file to 'example.cfg'
-        self.configFile = '/etc/turtles/Turtle.cfg'
+        self.configFile = configFile
 
         self.config.read(self.configFile)
 

@@ -10,14 +10,21 @@
 import logging
 import os
 
-from CoreRobot import CoreRobot
+from WebRobot import WebRobot
 from Movement import Movement
 from Utilities.ConfigFileManager import ConfigFileManager
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-directory = '/home/pi/logs'
+if(os.name == "nt"):
+    directory = r"c:\tmp\logs"
+    targetFile = r"c:\tmp\servoCommands.txt"
+    configFile=r"c:\tmp\Turtle.cfg"
+else:
+    directory = r"/home/pi/logs"
+    targetFile = '/dev/servoblaster'
+    configFile=r"/etc/turtles/Turtle.cfg"
 
 if not os.path.exists(directory):
     os.makedirs(directory)
@@ -31,9 +38,10 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 logger.info('Started Run Robot')
+m = Movement(logger, targetFile)
 
 # Main Action
-r = CoreRobot(logger, Movement(logger), ConfigFileManager(logger))
+r = WebRobot(logger, m, ConfigFileManager(logger, configFile))
 
 r.execute()
 

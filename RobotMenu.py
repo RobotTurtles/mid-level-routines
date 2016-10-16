@@ -9,6 +9,7 @@ __author__ = 'Alex'
 
 from subprocess import call
 from Apps.DanceMarathon import DanceMarathon
+from Apps.Basics import Basics
 from NetworkManager import NetworkManager
 from UpdateManager import UpdateManager
 import Utilities.TurtleInfo
@@ -28,12 +29,13 @@ class RobotMenu:
 
         # App Initialization, will be moved later
         self.dance = DanceMarathon(self.movement, self.logger)
+        self.basics = Basics(self.movement, self.logger)
         self.defaultRoutine = self.dance.processImage
 
-    def application(self, functionToCall):
-        return {
-            'dance':self.dance.processImage
-        }[functionToCall]
+        self.applications = {
+            'dance':self.dance.processImage,
+            'basics':self.basics.execute
+        }
 
     def runMethod(self, value, args):
         keyWord = str(value)
@@ -42,21 +44,28 @@ class RobotMenu:
             self.currentAppMethod(args)
             return
 
-        method_name = 'visit_' + keyWord
+        if(keyWord in self.applications):
+            try:
+                self.applications[keyWord](args)
+            except:
+                print("Unable to launch: "+str(self.applications[keyWord]))
+                pass
+        else:
+            method_name = 'visit_' + keyWord
 
-        print("going to method: "+method_name)
+            print("going to method: "+method_name)
 
-        method = getattr(self, method_name)
+            method = getattr(self, method_name)
 
-        try:
-            method(args)
-            # If Default System Function
-        except AttributeError:
-            print("Failed to find method: "+method)
-            targetAppExecutable = self.application(keyWord)
-            self.currentApp = keyWord
-            self.defaultRoutine = targetAppExecutable
-            return targetAppExecutable
+            try:
+                method(args)
+                # If Default System Function
+            except AttributeError:
+                print("Failed to find method: "+method)
+                targetAppExecutable = self.application(keyWord)
+                self.currentApp = keyWord
+                self.defaultRoutine = targetAppExecutable
+                return targetAppExecutable
 
 
     def visit_connect(self, args):

@@ -34,6 +34,8 @@ class DanceMarathon:
             'shakeNo':self.shakeNo,
             'spinRight':self.spinRight,
             'spinLeft':self.spinLeft,
+            'happyDance':self.happyDance,
+            'sadDance':self.sadDance
         }[functionToCall]
 
     def happyDance(self):

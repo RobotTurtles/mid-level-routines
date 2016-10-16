@@ -7,7 +7,7 @@ class TestSequenceFunctions(unittest.TestCase):
 
     def setUp(self):
         self.__targetFile = 'testResults.txt'
-        self.m = Movement(self.__targetFile)
+        self.m = Movement("", self.__targetFile)
 
     def test_moveCM_0(self):
         # Arrange
