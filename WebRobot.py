@@ -11,18 +11,17 @@ import os
 from Utilities.ReadCommandFromFile import ReadCommandFromFile
 from RobotMenu import RobotMenu
 from Movement import Movement
+import time
 
 __author__ = 'Alex'
 
 
 class WebRobot:
 
-    def __init__(self, logger, movement, config):
+    def __init__(self, logger, movement, config, robotCmdFile):
 
-        if(os.name == "nt"):
-            self.robotCmdFile = r"c:\tmp\command.txt"
-        else:
-            self.robotCmdFile = r"/var/www/command.txt"
+
+        self.robotCmdFile = robotCmdFile
 
         # Input Parameters
         self.m = movement
@@ -39,11 +38,15 @@ class WebRobot:
 
         while(True):
             cmd = self.readCmd.get_command()
-            self.RobotMenu.process(cmd)
-            pass
+            if (cmd):
+                self.RobotMenu.process(cmd)
+                self.readCmd.clear_commands()
+            else:
+                time.sleep(2)
+
 
 if __name__ == '__main__':
     targetFile = 'testResults.txt'
     m = Movement("", targetFile)
-    w = WebRobot("",m,"")
+    w = WebRobot("",m,"","")
     w.execute()
