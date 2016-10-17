@@ -21,10 +21,18 @@ if(os.name == "nt"):
     directory = r"c:\tmp\logs"
     targetFile = r"c:\tmp\servoCommands.txt"
     configFile=r"c:\tmp\Turtle.cfg"
+    robotCmdFile = r"c:\tmp\robotCmdFile.txt"
+elif(os.name == "posix"):
+    rootPath = os.path.abspath("../info")
+    directory = rootPath+r"/logs"
+    targetFile = rootPath+r"/servoCommands.txt"
+    configFile=rootPath+r"/Turtle.cfg"
+    robotCmdFile = rootPath+r"/robotCommand.txt"
 else:
     directory = r"/home/pi/logs"
     targetFile = '/dev/servoblaster'
     configFile=r"/etc/turtles/Turtle.cfg"
+    robotCmdFile = r"/var/www/robotCommand.txt"
 
 if not os.path.exists(directory):
     os.makedirs(directory)
@@ -41,7 +49,7 @@ logger.info('Started Run Robot')
 m = Movement(logger, targetFile)
 
 # Main Action
-r = WebRobot(logger, m, ConfigFileManager(logger, configFile))
+r = WebRobot(logger, m, ConfigFileManager(logger, configFile), robotCmdFile)
 
 r.execute()
 
