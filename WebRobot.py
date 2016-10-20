@@ -8,7 +8,7 @@
 ###############################################################################
 
 import os
-from Utilities.ReadCommandFromFile import ReadCommandFromFile
+from Utilities.ManageCommandsFromFile import ReadCommandFromFile
 from RobotMenu import RobotMenu
 from Movement import Movement
 import time
@@ -37,7 +37,7 @@ class WebRobot:
         counter = 0
 
         while(True):
-            cmd = self.readCmd.get_command()
+            cmd = self.readCmd.read_command()
             if (cmd):
                 self.RobotMenu.process(cmd)
                 self.readCmd.clear_commands()

@@ -7,7 +7,18 @@ class ReadCommandFromFile(object):
         self.cmdFile = cmdFile
         pass
 
-    def get_command(self):
+    def write_command(self, cmd):
+
+        self.open_commands()
+
+        with open(self.cmdFile, 'w') as cmdFile:
+
+            cmd = cmdFile.writelines([cmd])
+
+            cmdFile.writelines([''])
+        return cmd
+
+    def read_command(self):
 
         self.open_commands()
 
@@ -17,6 +28,18 @@ class ReadCommandFromFile(object):
             cmd = cmdFile.readline().strip()
 
         return cmd
+
+    def read_commands(self):
+
+        self.open_commands()
+
+        cmds = []
+
+        with open(self.cmdFile, 'r') as cmdFile:
+            for cmd in cmdFile.readlines():
+                cmds.append(cmd.strip())
+
+        return cmds
 
     def open_commands(self):
         flags = os.O_CREAT | os.O_EXCL | os.O_WRONLY

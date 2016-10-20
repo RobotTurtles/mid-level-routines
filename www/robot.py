@@ -1,5 +1,8 @@
 import cgi
 import cgitb; cgitb.enable()  # for troubleshooting
+from Utilities.ManageCommandsFromFile import ReadCommandFromFile
+
+mFile = ReadCommandFromFile("robotCmds.txt")
 
 print "Content-type: text/html"
 print
@@ -14,6 +17,9 @@ form = cgi.FieldStorage()
 
 r_cmd = form.getvalue("r_cmd", "{no message}")
 r_arg = form.getvalue("r_arg", "{no arg}")
+
+if(r_cmd != "{no message}"):
+    mFile.write_command(r_cmd)
 
 print """
    <p>Previous message: %s, args: %s</p>

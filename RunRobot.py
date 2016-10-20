@@ -13,26 +13,15 @@ import os
 from WebRobot import WebRobot
 from Movement import Movement
 from Utilities.ConfigFileManager import ConfigFileManager
+from Utilities.GetEnvironmentValues import GetEnvironmentValues
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-if(os.name == "nt"):
-    directory = r"c:\tmp\logs"
-    targetFile = r"c:\tmp\servoCommands.txt"
-    configFile=r"c:\tmp\Turtle.cfg"
-    robotCmdFile = r"c:\tmp\robotCmdFile.txt"
-elif(os.name == "posix"):
-    rootPath = os.path.abspath("../info")
-    directory = rootPath+r"/logs"
-    targetFile = rootPath+r"/servoCommands.txt"
-    configFile=rootPath+r"/Turtle.cfg"
-    robotCmdFile = rootPath+r"/robotCommand.txt"
-else:
-    directory = r"/home/pi/logs"
-    targetFile = '/dev/servoblaster'
-    configFile=r"/etc/turtles/Turtle.cfg"
-    robotCmdFile = r"/var/www/robotCommand.txt"
+directory = GetEnvironmentValues.getRootDirectory()
+targetDevice = GetEnvironmentValues.getTargetMotorFile()
+configFile = GetEnvironmentValues.getConfigFile()
+robotCmdFile = GetEnvironmentValues.getRobotCmdFile()
 
 if not os.path.exists(directory):
     os.makedirs(directory)
@@ -46,7 +35,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 logger.info('Started Run Robot')
-m = Movement(logger, targetFile)
+m = Movement(logger, targetDevice)
 
 # Main Action
 r = WebRobot(logger, m, ConfigFileManager(logger, configFile), robotCmdFile)
