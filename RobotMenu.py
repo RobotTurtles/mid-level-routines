@@ -52,21 +52,19 @@ class RobotMenu:
                 self.logger.error("Unable to launch" + str(self.applications[keyWord]))
                 pass
         else:
-            method_name = 'visit_' + keyWord
-
-            print("going to method: "+method_name)
-
-            method = getattr(self, method_name)
-
             try:
+
+                method_name = 'visit_' + keyWord
+
+                print("going to method: "+method_name)
+
+                method = getattr(self, method_name)
+
+
                 method(args)
                 # If Default System Function
             except AttributeError:
-                print("Failed to find method: "+method)
-                targetAppExecutable = self.application(keyWord)
-                self.currentApp = keyWord
-                self.defaultRoutine = targetAppExecutable
-                return targetAppExecutable
+                self.logger.error("Failed to find method: "+method_name)
 
 
     def visit_connect(self, args):

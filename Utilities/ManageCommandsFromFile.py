@@ -55,7 +55,7 @@ class ReadCommandFromFile(object):
 
         user = getpass.getuser()
         
-        if(user == 'pi'):
+        if(user != 'www-data'):
             st = os.stat(self.cmdFile)
             os.chmod(self.cmdFile, st.st_mode | 0o777)
 
