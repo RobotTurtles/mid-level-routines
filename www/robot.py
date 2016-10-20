@@ -1,8 +1,11 @@
+import sys
+sys.path.append('/home/pi/robotturtles/mid-level-routines')
 import cgi
 import cgitb; cgitb.enable()  # for troubleshooting
 from Utilities.ManageCommandsFromFile import ReadCommandFromFile
 
-mFile = ReadCommandFromFile("robotCmds.txt")
+
+mFile = ReadCommandFromFile("robotCommand.txt")
 
 print "Content-type: text/html"
 print

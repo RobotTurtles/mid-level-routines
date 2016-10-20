@@ -8,24 +8,26 @@ class Basics(object):
         self.logger = logger
         self.logger.info("Initialized Basics")
 
-    def execute(self, args):
+    def execute(self, option):
 
-        if(len(args) == 0):
-            self.logger.info("No arguments found!")
-            return
+        turnAmount = 180
+        driveAmount = 50
 
-        turnAmount = 90
-        driveAmount = 15
-
-        option = args.lower()
+        option = option.lower()
 
         if(option == 'left'):
+            #self.logger.info("Turning Left by Amount: " + turnAmount)
             self.m.turnDegrees(-turnAmount)
         elif(option == 'right'):
+            #self.logger.info("Turning Left by Amount: " + turnAmount)
             self.m.turnDegrees(turnAmount)
         elif(option == 'forward'):
+            #self.logger.info("Turning Left by Amount: " + turnAmount)
             self.m.moveCM(driveAmount)
         elif(option == 'reverse'):
+            #self.logger.info("Turning Left by Amount: " + turnAmount)
             self.m.moveCM(-driveAmount)
+
+        #self.logger("Did not find option")
 
         pass

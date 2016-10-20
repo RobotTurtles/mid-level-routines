@@ -26,7 +26,9 @@ robotCmdFile = GetEnvironmentValues.getRobotCmdFile()
 if not os.path.exists(directory):
     os.makedirs(directory)
 
-handler = logging.FileHandler(directory + '/TurtleThoughts.log')
+targetLog = directory + '/TurtleThoughts.log'
+print("Writing Log to: " + targetLog)
+handler = logging.FileHandler(targetLog)
 handler.setLevel(logging.INFO)
 
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')

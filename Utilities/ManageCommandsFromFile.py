@@ -1,5 +1,7 @@
 import os
 import errno
+import stat
+import getpass
 
 class ReadCommandFromFile(object):
 
@@ -42,14 +44,20 @@ class ReadCommandFromFile(object):
         return cmds
 
     def open_commands(self):
-        flags = os.O_CREAT | os.O_EXCL | os.O_WRONLY
+        flags = os.O_CREAT | os.O_EXCL
         try:
-            file_handle = os.open(self.cmdFile, flags)
+            file_handle = os.open(self.cmdFile, flags, 0o777)
         except OSError as e:
             if e.errno == errno.EEXIST:  # Failed as the file already exists.
                 pass
             else:  # Something unexpected went wrong so reraise the exception.
                 raise
+
+        user = getpass.getuser()
+        
+        if(user == 'pi'):
+            st = os.stat(self.cmdFile)
+            os.chmod(self.cmdFile, st.st_mode | 0o777)
 
     def clear_commands(self):
         os.remove(self.cmdFile)

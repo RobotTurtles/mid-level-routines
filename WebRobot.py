@@ -22,6 +22,7 @@ class WebRobot:
 
 
         self.robotCmdFile = robotCmdFile
+        logger.info("Reading from: " + robotCmdFile)
 
         # Input Parameters
         self.m = movement
@@ -38,6 +39,7 @@ class WebRobot:
 
         while(True):
             cmd = self.readCmd.read_command()
+            self.logger.info('Read Command: '+cmd)
             if (cmd):
                 self.RobotMenu.process(cmd)
                 self.readCmd.clear_commands()

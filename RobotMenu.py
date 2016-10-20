@@ -35,22 +35,21 @@ class RobotMenu:
         self.currentAppMethod = self.dance.executeDance
 
         self.applications = {
-            'dance':self.dance.processImage,
-            'basics':self.basics.execute
+            'basics':self.basics
         }
 
     def runMethod(self, value, args):
-        keyWord = str(value)
+        keyWord = str(value).lower()
 
         if(keyWord == self.currentApp):
-            self.currentAppMethod(args)
+            self.currentAppMethod()
             return
 
         if(keyWord in self.applications):
             try:
-                self.applications[keyWord](args)
+                self.basics.execute(args)
             except:
-                print("Unable to launch: "+str(self.applications[keyWord]))
+                self.logger.error("Unable to launch" + str(self.applications[keyWord]))
                 pass
         else:
             method_name = 'visit_' + keyWord
